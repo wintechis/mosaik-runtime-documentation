@@ -1,0 +1,177 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix arena: <https://solid.ti.rw.fau.de/public/ns/arena#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+
+</> {
+    </> a ldp:BasicContainer ;
+        ldp:contains </stations>,
+                     </transporters>,
+                     </shopfloor> .
+}
+
+</stations> {
+    </stations> a ldp:BasicContainer ;
+        ldp:contains </stations/green>,
+                     </stations/blue>,
+                     </stations/red>,
+                     </stations/yellow> .
+}
+
+</stations/green> {
+    </stations/green/> a arena:Workstation ;
+        arena:locationX 9 ;
+        arena:locationY 9 ;
+        arena:inputPort [
+            a arena:Port ;
+            arena:locationX 9 ;
+            arena:locationY 9
+        ] ;
+        arena:outputPort [
+            a arena:Port ;
+            arena:locationX 9 ;
+            arena:locationY 9
+        ] ;
+        arena:color arena:green ;
+        arena:eventContainer </stations/green/events> .
+}
+
+</stations/green/events> {
+    </stations/green/events> a ldp:DirectContainer .
+}
+
+</stations/blue> {
+    </stations/blue/> a arena:Workstation ;
+        arena:locationX 9 ;
+        arena:locationY 17 ;
+        arena:inputPort [
+            a arena:Port ;
+            arena:locationX 9 ;
+            arena:locationY 17
+        ] ;
+        arena:outputPort [
+            a arena:Port ;
+            arena:locationX 9 ;
+            arena:locationY 17
+        ] ;
+        arena:color arena:blue ;
+        arena:eventContainer </stations/blue/events> .
+}
+
+</stations/blue/events> {
+    </stations/blue/events> a ldp:DirectContainer .
+}
+
+</stations/red> {
+    </stations/red/> a arena:Workstation ;
+        arena:locationX 17 ;
+        arena:locationY 17 ;
+        arena:inputPort [
+            a arena:Port ;
+            arena:locationX 17 ;
+            arena:locationY 17
+        ] ;
+        arena:outputPort [
+            a arena:Port ;
+            arena:locationX 17 ;
+            arena:locationY 17
+        ] ;
+        arena:color arena:red ;
+        arena:eventContainer </stations/red/events> .
+}
+
+</stations/red/events> {
+    </stations/red/events> a ldp:DirectContainer .
+}
+
+</stations/yellow> {
+    </stations/yellow/> a arena:Workstation ;
+        arena:locationX 17 ;
+        arena:locationY 9 ;
+        arena:inputPort [
+            a arena:Port ;
+            arena:locationX 17 ;
+            arena:locationY 9
+        ] ;
+        arena:outputPort [
+            a arena:Port ;
+            arena:locationX 17 ;
+            arena:locationY 9
+        ] ;
+        arena:color arena:yellow ;
+        arena:eventContainer </stations/yellow/events> .
+}
+
+</stations/yellow/events> {
+    </stations/yellow/events> a ldp:DirectContainer .
+}
+
+</transporters> {
+    </transporters> a ldp:BasicContainer ;
+        ldp:contains </transporters/1>,
+                     </transporters/2>,
+                     </transporters/3>,
+                     </transporters/4> .
+}
+
+</transporters/1> {
+    </transporters/1> a arena:Transporter ;
+        arena:locationX 1 ;
+        arena:locationY 1 ;
+        arena:status arena:idle ;
+        arena:speed 1 ;
+        arena:capacity 1 ;
+        arena:tasks </transporters/1/tasks> .
+}
+
+</transporters/1/tasks> {
+    </transporters/1/tasks> a arena:TaskContainer .
+}
+
+</transporters/2> {
+    </transporters/2> a arena:Transporter ;
+        arena:locationX 1 ;
+        arena:locationY 1 ;
+        arena:status arena:idle ;
+        arena:speed 1 ;
+        arena:capacity 1 ;
+        arena:tasks </transporters/2/tasks> .
+}
+
+</transporters/2/tasks> {
+    </transporters/2/tasks> a arena:TaskContainer .
+}
+
+</transporters/3> {
+    </transporters/3> a arena:Transporter ;
+        arena:locationX 1 ;
+        arena:locationY 1 ;
+        arena:status arena:idle ;
+        arena:speed 1 ;
+        arena:capacity 1 ;
+        arena:tasks </transporters/3/tasks> .
+}
+
+</transporters/3/tasks> {
+    </transporters/3/tasks> a arena:TaskContainer .
+}
+
+</transporters/4> {
+    </transporters/4> a arena:Transporter ;
+        arena:locationX 1 ;
+        arena:locationY 1 ;
+        arena:status arena:idle ;
+        arena:speed 1 ;
+        arena:capacity 1 ;
+        arena:tasks </transporters/4/tasks> .
+}
+
+</transporters/4/tasks> {
+    </transporters/4/tasks> a arena:TaskContainer .
+}
+
+</shopfloor> {
+    </shopfloor> a arena:Shopfloor ;
+        arena:sizeX 25 ;
+        arena:sizeY 25 .
+}

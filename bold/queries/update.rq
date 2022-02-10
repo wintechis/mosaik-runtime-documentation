@@ -1,0 +1,27 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
+PREFIX sim: <http://ti.rw.fau.de/sim#>
+
+DELETE {
+    GRAPH ?transporter {
+        ?transporter arena:locationX 1 ;
+            arena:locationY 1 .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:locationX 2 ;
+            arena:locationY 2 .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:locationX 1 ;
+        arena:locationY 1 .
+
+    ?shopfloor a arena:Shopfloor ;
+        arena:sizeX ?sizeX ;
+        arena:sizeY ?sizeY .
+
+    BIND(FLOOR(RAND() * 25) AS ?newX)
+    BIND(FLOOR(RAND() * 25) AS ?newY)
+}
