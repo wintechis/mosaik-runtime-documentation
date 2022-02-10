@@ -1,5 +1,6 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
 PREFIX sim: <http://ti.rw.fau.de/sim#>
 
@@ -18,6 +19,13 @@ DELETE {
             arena:tileW ?t7 ;
             arena:tileNW ?t8 .
     }
+    GRAPH ?taskContainer {
+        ?taskContainer ldp:contains ?task .
+    }
+    GRAPH ?task {
+        ?task a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:locationX ?newX ;
@@ -34,6 +42,7 @@ DELETE {
     }
 } WHERE {
     ?transporter a arena:Transporter ;
+        arena:tasks ?taskContainer ;
         arena:locationX ?x ;
         arena:locationY ?y ;
         arena:tile ?t ;
@@ -44,18 +53,33 @@ DELETE {
         arena:tileS ?t5 ;
         arena:tileSW ?t6 ;
         arena:tileW ?t7 ;
-        arena:tileNW ?t8 .
+        arena:tileNW ?t8 ;
+        ?direction ?goalTile .
+
+    VALUES (?direction ?dx ?dy) {
+        (arena:tileN 0 -1)
+        (arena:tileNE 1 -1)
+        (arena:tileE 1 0)
+        (arena:tileSE 1 1)
+        (arena:tileS 0 1)
+        (arena:tileSW -1 1)
+        (arena:tileW -1 0)
+        (arena:tileNW -1 -1)
+    }
+
+    ?taskContainer ldp:contains ?task .
+
+    ?task a arena:TransporterTask ;
+        rdf:value ?goalTile .
 
     ?shopfloor a arena:Shopfloor ;
         arena:sizeX ?sizeX ;
         arena:sizeY ?sizeY .
 
     FILTER(?newX < ?sizeX && ?newX >= 0)
-    BIND(xsd:integer(FLOOR(sim:rand(?transporter)*3)-1) AS ?dx)
     BIND(?x + ?dx AS ?newX)
 
     FILTER(?newY < ?sizeY && ?newY >= 0)
-    BIND(xsd:integer(FLOOR(sim:rand(?transporter)*3)-1) AS ?dy)
     BIND(?y + ?dy AS ?newY)
 
     BIND(?newX - 1 AS ?newXminus1)

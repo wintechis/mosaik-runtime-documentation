@@ -1,0 +1,6 @@
+@prefix arena: <https://solid.ti.rw.fau.de/public/ns/arena#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+<> a arena:TransporterTask ;
+    rdf:value <http://127.0.1.1:8080/shopfloor/4/18> .
