@@ -1,0 +1,145 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
+PREFIX sim: <http://ti.rw.fau.de/sim#>
+
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:blue .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:blue)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:green .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:green)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:yellow .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:yellow)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:red .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:red)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+DELETE {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH </productsDelivered> {
+        </productsDelivered> rdf:value ?counter .
+    }
+} INSERT {
+    GRAPH </productsDelivered> {
+        </productsDelivered> rdf:value ?newCounter .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:inputPort ?port ;
+        arena:color ?color .
+
+    ?port arena:products ?product .
+
+    ?product arena:color ?color .
+
+    </productsDelivered> rdf:value ?counter .
+    
+    BIND(?counter + 1 AS ?newCounter)
+};

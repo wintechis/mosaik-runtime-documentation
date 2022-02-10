@@ -1,0 +1,124 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
+PREFIX sim: <http://ti.rw.fau.de/sim#>
+
+# Transporter moves
+DELETE {
+    GRAPH ?transporter {
+        ?transporter arena:locationX ?x ;
+            arena:locationY ?y ;
+            arena:tile ?t ;
+            arena:tileN ?t1 ;
+            arena:tileNE ?t2 ;
+            arena:tileE ?t3 ;
+            arena:tileSE ?t4 ;
+            arena:tileS ?t5 ;
+            arena:tileSW ?t6 ;
+            arena:tileW ?t7 ;
+            arena:tileNW ?t8 .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:locationX ?newX ;
+            arena:locationY ?newY ;
+            arena:tile ?tile ;
+            arena:tileN ?tileN ;
+            arena:tileNE ?tileNE ;
+            arena:tileE ?tileE ;
+            arena:tileSE ?tileSE ;
+            arena:tileS ?tileS ;
+            arena:tileSW ?tileSW ;
+            arena:tileW ?tileW ;
+            arena:tileNW ?tileNW .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:locationX ?x ;
+        arena:locationY ?y ;
+        arena:tile ?t ;
+        arena:tileN ?t1 ;
+        arena:tileNE ?t2 ;
+        arena:tileE ?t3 ;
+        arena:tileSE ?t4 ;
+        arena:tileS ?t5 ;
+        arena:tileSW ?t6 ;
+        arena:tileW ?t7 ;
+        arena:tileNW ?t8 .
+
+    ?shopfloor a arena:Shopfloor ;
+        arena:sizeX ?sizeX ;
+        arena:sizeY ?sizeY .
+
+    FILTER(?newX < ?sizeX && ?newX >= 0)
+    BIND(xsd:integer(FLOOR(sim:rand(?transporter)*3)-1) AS ?dx)
+    BIND(?x + ?dx AS ?newX)
+
+    FILTER(?newY < ?sizeY && ?newY >= 0)
+    BIND(xsd:integer(FLOOR(sim:rand(?transporter)*3)-1) AS ?dy)
+    BIND(?y + ?dy AS ?newY)
+
+    BIND(?newX - 1 AS ?newXminus1)
+    BIND(?newX + 1 AS ?newXplus1)
+    BIND(?newY - 1 AS ?newYminus1)
+    BIND(?newY + 1 AS ?newYplus1)
+
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newY))) AS ?tile)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newYminus1))) AS ?tileN)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newYminus1))) AS ?tileNE)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newY))) AS ?tileE)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newYplus1))) AS ?tileSE)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newYplus1))) AS ?tileS)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newYplus1))) AS ?tileSW)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newY))) AS ?tileW)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newYminus1))) AS ?tileNW)
+};
+
+# Tranporter picks up product from output port
+DELETE {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:products ?product .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:locationX ?x ;	
+        arena:locationY ?y .
+
+    ?station a arena:Workstation ;
+        arena:outputPort ?port .
+
+    ?port arena:locationX ?x ;	
+        arena:locationY ?y ;
+        arena:products ?product .
+
+    FILTER NOT EXISTS {
+        ?transporter arena:products ?p .
+    }
+};
+
+# Transporter puts products to input ports
+DELETE {
+    GRAPH ?transporter {
+        ?transporter arena:products ?product .
+    }
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:locationX ?x ;	
+        arena:locationY ?y ;
+        arena:products ?product .
+
+    ?station a arena:Workstation ;
+        arena:inputPort ?port .
+
+    ?port arena:locationX ?x ;	
+        arena:locationY ?y .
+
+};

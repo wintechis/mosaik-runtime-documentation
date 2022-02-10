@@ -10,6 +10,17 @@
                      </shopfloor> .
 }
 
+</productsDelivered> {
+    </productsDelivered> rdf:value 0 .
+}
+
+</colors> {
+    arena:red a arena:Color .
+    arena:blue a arena:Color .
+    arena:yellow a arena:Color .
+    arena:green a arena:Color .
+}
+
 </stations> {
     </stations> a ldp:BasicContainer ;
         ldp:contains </stations/green>,
@@ -19,13 +30,13 @@
 }
 
 </stations/green> {
-    </stations/green/> a arena:Workstation ;
+    </stations/green> a arena:Workstation ;
         arena:locationX 9 ;
         arena:locationY 9 ;
         arena:inputPort [
             a arena:Port ;
             arena:locationX 9 ;
-            arena:locationY 9
+            arena:locationY 9 ;
         ] ;
         arena:outputPort [
             a arena:Port ;
@@ -41,7 +52,7 @@
 }
 
 </stations/blue> {
-    </stations/blue/> a arena:Workstation ;
+    </stations/blue> a arena:Workstation ;
         arena:locationX 9 ;
         arena:locationY 17 ;
         arena:inputPort [
@@ -63,7 +74,7 @@
 }
 
 </stations/red> {
-    </stations/red/> a arena:Workstation ;
+    </stations/red> a arena:Workstation ;
         arena:locationX 17 ;
         arena:locationY 17 ;
         arena:inputPort [
@@ -85,7 +96,7 @@
 }
 
 </stations/yellow> {
-    </stations/yellow/> a arena:Workstation ;
+    </stations/yellow> a arena:Workstation ;
         arena:locationX 17 ;
         arena:locationY 9 ;
         arena:inputPort [
@@ -116,8 +127,6 @@
 
 </transporters/1> {
     </transporters/1> a arena:Transporter ;
-        arena:locationX 1 ;
-        arena:locationY 1 ;
         arena:status arena:idle ;
         arena:speed 1 ;
         arena:capacity 1 ;
@@ -130,8 +139,6 @@
 
 </transporters/2> {
     </transporters/2> a arena:Transporter ;
-        arena:locationX 1 ;
-        arena:locationY 1 ;
         arena:status arena:idle ;
         arena:speed 1 ;
         arena:capacity 1 ;
@@ -144,8 +151,6 @@
 
 </transporters/3> {
     </transporters/3> a arena:Transporter ;
-        arena:locationX 1 ;
-        arena:locationY 1 ;
         arena:status arena:idle ;
         arena:speed 1 ;
         arena:capacity 1 ;
@@ -158,12 +163,16 @@
 
 </transporters/4> {
     </transporters/4> a arena:Transporter ;
-        arena:locationX 1 ;
-        arena:locationY 1 ;
         arena:status arena:idle ;
         arena:speed 1 ;
         arena:capacity 1 ;
+        arena:products </products/1> ;
         arena:tasks </transporters/4/tasks> .
+}
+
+</products/1> {
+    </products/1> a arena:Product ;
+        arena:color arena:green .
 }
 
 </transporters/4/tasks> {
