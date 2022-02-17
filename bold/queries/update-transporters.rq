@@ -69,8 +69,11 @@ DELETE {
 
     ?taskContainer ldp:contains ?task .
 
-    ?task a arena:TransporterTask ;
-        rdf:value ?goalTile .
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+
 
     ?shopfloor a arena:Shopfloor ;
         arena:sizeX ?sizeX ;
