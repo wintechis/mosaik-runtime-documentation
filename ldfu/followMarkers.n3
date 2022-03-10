@@ -1,0 +1,337 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix http: <http://www.w3.org/2011/http#> . 
+@prefix httpm: <http://www.w3.org/2011/http-methods#> . 
+@prefix arena: <https://solid.ti.rw.fau.de/public/ns/arena#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+
+<#a> <#b> <#c> .
+
+# Dummy marker
+<#dummyMarkerRed> arena:color arena:red ;
+    arena:value "1001"^^xsd:integer .
+<#dummyMarkerGreen> arena:color arena:green ;
+    arena:value "1001"^^xsd:integer .
+<#dummyMarkerYellow> arena:color arena:yellow ;
+    arena:value "1001"^^xsd:integer .
+<#dummyMarkerBlue> arena:color arena:blue ;
+    arena:value "1001"^^xsd:integer .
+
+# Get root
+{
+  <#a> <#b> <#c> .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI <http://127.0.1.1:8080/> .
+} .
+
+# Follow all links in containers
+{
+  ?a ldp:contains ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+# Follow all links in containers
+{
+  ?a arena:tile ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileN ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileNE ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileE ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileSE ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileS ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileSW ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileW ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+{
+  ?a arena:tileNW ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
+# Creating dummy tile with high stigmergy value for tiles that do not exist
+{
+    ?transporter a arena:Transporter ;
+        ?direction arena:nil .
+} => {
+    ?transporter ?direction _:dummyTile .
+
+    _:dummyTile a arena:Tile ;
+        arena:marker <#dummyMarkerRed>, <#dummyMarkerGreen>, <#dummyMarkerYellow>, <#dummyMarkerBlue> .
+
+} .
+
+# The random choices of the transporter to move
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileN ?tileN .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileN .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileNE ?tileNE .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileNE .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileE ?tileE .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileE .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileSE ?tileSE .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileSE .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileS ?tileS .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileS .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileSW ?tileSW .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileSW .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileW ?tileW .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileW .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:status arena:idle ;
+    arena:tasks ?taskContainer ;
+    arena:tileNW ?tileNW .
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tileNW .
+     } .
+} .
+
+# If a transporter has a station on its tile, place stigmergy marker on tile
+{
+  ?transporter a arena:Transporter ;
+    arena:tile ?tile .
+
+  ?station a arena:Workstation ;
+    arena:tile ?tile ;
+    arena:color ?color .
+
+  ?tile a arena:Tile ;
+    arena:marker ?marker, ?marker1, ?marker2, ?marker3 .
+
+  ?marker arena:color ?color .
+
+  ?marker1 arena:color ?color1 ;
+    arena:value ?value1 .
+
+  ?marker2 arena:color ?color2 ;
+    arena:value ?value2 .
+
+  ?marker3 arena:color ?color3 ;
+    arena:value ?value3 .
+
+  ?color log:notEqualTo ?color1 .
+  ?color log:notEqualTo ?color2 .
+  ?color log:notEqualTo ?color3 .
+  ?color1 log:notEqualTo ?color2 .
+  ?color1 log:notEqualTo ?color3 .
+  ?color2 log:notEqualTo ?color3 .
+} => {
+  [] http:mthd httpm:PUT ;
+     http:requestURI ?tile ;
+     http:body {
+       ?tile a arena:Tile ;
+           arena:marker _:bn, _:b1, _:b2, _:b3 .
+
+       _:bn arena:color ?color ;
+            arena:value "0"^^xsd:integer .
+
+       _:b1 arena:color ?color1 ;
+            arena:value ?value1 .
+
+       _:b2 arena:color ?color2 ;
+            arena:value ?value2 .
+
+       _:b3 arena:color ?color3 ;
+            arena:value ?value3 .
+     } .
+} .
+
+# If a transporter has a marker next to it, place stigmergy marker plus one on tile
+{
+  ?transporter a arena:Transporter ;
+    arena:tile ?ourTile ;
+    ?direction ?tile .
+
+  ?ourTile log:notEqualTo ?tile .
+
+  ?ourTile a arena:Tile ;
+    arena:marker ?ourMarker, ?marker1, ?marker2, ?marker3 .
+
+  ?ourMarker arena:color ?color ;
+    arena:value ?ourValue .
+
+  ?tile a arena:Tile ;
+    arena:marker ?marker .
+
+  ?marker arena:color ?color ;
+    arena:value ?value .
+
+  ?marker1 arena:color ?color1 ;
+    arena:value ?value1 .
+
+  ?marker2 arena:color ?color2 ;
+    arena:value ?value2 .
+
+  ?marker3 arena:color ?color3 ;
+    arena:value ?value3 .
+
+  ?color log:notEqualTo ?color1 .
+  ?color log:notEqualTo ?color2 .
+  ?color log:notEqualTo ?color3 .
+  ?color1 log:notEqualTo ?color2 .
+  ?color1 log:notEqualTo ?color3 .
+  ?color2 log:notEqualTo ?color3 .
+
+  (?value "1"^^xsd:integer) math:sum ?valuePlusOne .
+
+  ?valuePlusOne math:lessThan ?ourValue .
+} => {
+  [] http:mthd httpm:PUT ;
+     http:requestURI ?ourTile ;
+     http:body {
+       ?ourTile a arena:Tile ;
+           arena:marker _:bour, _:b1, _:b2, _:b3 .
+
+       _:bour arena:color ?color ;
+            arena:value ?valuePlusOne .
+
+       _:b1 arena:color ?color1 ;
+            arena:value ?value1 .
+
+       _:b2 arena:color ?color2 ;
+            arena:value ?value2 .
+
+       _:b3 arena:color ?color3 ;
+            arena:value ?value3 .
+     } .
+} .

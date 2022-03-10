@@ -3,6 +3,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
 PREFIX sim: <http://ti.rw.fau.de/sim#>
 
+# For blue stations if no product create a product that is not blue
 DELETE {
 } INSERT {
     GRAPH ?station {
@@ -32,6 +33,7 @@ DELETE {
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
+# For green stations if no product create a product that is not green
 DELETE {
 } INSERT {
     GRAPH ?station {
@@ -61,6 +63,7 @@ DELETE {
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
+# For yellow stations if no product create a product that is not yellow
 DELETE {
 } INSERT {
     GRAPH ?station {
@@ -90,6 +93,7 @@ DELETE {
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
+# For red stations if no product create a product that is not red
 DELETE {
 } INSERT {
     GRAPH ?station {
@@ -119,6 +123,7 @@ DELETE {
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
+# If station has a fitting product in input port, delete product and increase counter
 DELETE {
     GRAPH ?station {
         ?port arena:products ?product .

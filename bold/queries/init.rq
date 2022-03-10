@@ -2,24 +2,20 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
 PREFIX sim: <http://ti.rw.fau.de/sim#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 
+# Create random position for tranporters and add tile
 DELETE {
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:locationX ?posX ;
             arena:locationY ?posY ;
-            arena:tile ?tile ;
-            arena:tileN ?tileN ;
-            arena:tileNE ?tileNE ;
-            arena:tileE ?tileE ;
-            arena:tileSE ?tileSE ;
-            arena:tileS ?tileS ;
-            arena:tileSW ?tileSW ;
-            arena:tileW ?tileW ;
-            arena:tileNW ?tileNW .
+            arena:tile ?tile .
     }
 } WHERE {
     ?transporter a arena:Transporter .
+
+    FILTER(?transporter != <http://127.0.1.1:8080/transporters/1>)
 
     ?shopfloor a arena:Shopfloor ;
         arena:sizeX ?sizeX ;
@@ -28,18 +24,83 @@ DELETE {
     BIND(xsd:integer(FLOOR(sim:rand(?transporter)*?sizeX)) AS ?posX)
     BIND(xsd:integer(FLOOR(sim:rand(?transporter)*?sizeY)) AS ?posY)
 
-    BIND(?posX - 1 AS ?posXminus1)
-    BIND(?posX + 1 AS ?posXplus1)
-    BIND(?posY - 1 AS ?posYminus1)
-    BIND(?posY + 1 AS ?posYplus1)
-
     BIND(URI(CONCAT("/shopfloor/",xsd:string(?posX),"/",xsd:string(?posY))) AS ?tile)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posX),"/",xsd:string(?posYminus1))) AS ?tileN)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXplus1),"/",xsd:string(?posYminus1))) AS ?tileNE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXplus1),"/",xsd:string(?posY))) AS ?tileE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXplus1),"/",xsd:string(?posYplus1))) AS ?tileSE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posX),"/",xsd:string(?posYplus1))) AS ?tileS)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXminus1),"/",xsd:string(?posYplus1))) AS ?tileSW)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXminus1),"/",xsd:string(?posY))) AS ?tileW)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?posXminus1),"/",xsd:string(?posYminus1))) AS ?tileNW)
+};
+
+# Create initial stigmergy marker for all shopfloor tiles
+DELETE {
+} INSERT {
+    GRAPH ?tile {
+        ?tile a arena:Tile ;
+            arena:marker [
+                arena:color arena:red ;
+                arena:value 1000
+            ], [
+                arena:color arena:blue ;
+                arena:value 1000
+            ], [
+                arena:color arena:yellow ;
+                arena:value 1000
+            ], [
+                arena:color arena:green ;
+                arena:value 1000
+            ] .
+    }
+} WHERE {
+    VALUES (?x) {
+        (0)
+        (1)
+        (2)
+        (3)
+        (4)
+#        (5)
+#        (6)
+#        (7)
+#        (8)
+#        (9)
+#        (10)
+#        (11)
+#        (12)
+#        (13)
+#        (14)
+#        (15)
+#        (16)
+#        (17)
+#        (18)
+#        (19)
+#        (20)
+#        (21)
+#        (22)
+#        (23)
+#        (24)
+    }
+    VALUES (?y) {
+        (0)
+        (1)
+        (2)
+        (3)
+        (4)
+#        (5)
+#        (6)
+#        (7)
+#        (8)
+#        (9)
+#        (10)
+#        (11)
+#        (12)
+#        (13)
+#        (14)
+#        (15)
+#        (16)
+#        (17)
+#        (18)
+#        (19)
+#        (20)
+#        (21)
+#        (22)
+#        (23)
+#        (24)
+    }
+
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y))) AS ?tile)
 };

@@ -4,6 +4,115 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
 PREFIX sim: <http://ti.rw.fau.de/sim#>
 
+# Set transporter to busy when task available and idle
+DELETE {
+    GRAPH ?transporter {
+        ?transporter arena:status arena:idle .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:status arena:busy .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:status arena:idle ;
+        arena:tasks ?taskContainer .
+
+    ?taskContainer ldp:contains ?task .
+
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+};
+
+# Set transporter to idle when no task available and busy
+DELETE {
+    GRAPH ?transporter {
+        ?transporter arena:status arena:busy .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:status arena:idle .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:status arena:busy ;
+        arena:tasks ?taskContainer .
+
+    FILTER NOT EXISTS {
+        ?taskContainer ldp:contains ?task .
+    }
+};
+
+# If a transporter has a task that is currently not executable, delete it
+DELETE {
+    GRAPH ?taskContainer {
+        ?taskContainer ldp:contains ?task .
+    }
+    GRAPH ?task {
+        ?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:tasks ?taskContainer .
+
+    ?taskContainer ldp:contains ?task .
+
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+
+    FILTER NOT EXISTS {
+        ?transporter ?direction ?goalTile .
+    }
+};
+
+# If a transporter has a task that goes out of bounds, delete it
+DELETE {
+    GRAPH ?taskContainer {
+        ?taskContainer ldp:contains ?task .
+    }
+    GRAPH ?task {
+        ?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:tasks ?taskContainer .
+
+    ?taskContainer ldp:contains ?task .
+
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value arena:nil .
+    }
+};
+
+# If transporter is on tile that tasks wants, delete task
+DELETE {
+    GRAPH ?taskContainer {
+        ?taskContainer ldp:contains ?task .
+    }
+    GRAPH ?task {
+        ?someTask a arena:TransporterTask ;
+            rdf:value ?tile .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:tasks ?taskContainer ;
+        arena:tile ?tile .
+
+    ?taskContainer ldp:contains ?task .
+
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value ?tile .
+    }
+};
+
 # Transporter moves
 DELETE {
     GRAPH ?transporter {
@@ -23,38 +132,48 @@ DELETE {
         ?taskContainer ldp:contains ?task .
     }
     GRAPH ?task {
-        ?task a arena:TransporterTask ;
+        ?someTask a arena:TransporterTask ;
             rdf:value ?goalTile .
     }
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:locationX ?newX ;
             arena:locationY ?newY ;
-            arena:tile ?tile ;
-            arena:tileN ?tileN ;
-            arena:tileNE ?tileNE ;
-            arena:tileE ?tileE ;
-            arena:tileSE ?tileSE ;
-            arena:tileS ?tileS ;
-            arena:tileSW ?tileSW ;
-            arena:tileW ?tileW ;
-            arena:tileNW ?tileNW .
+            arena:tile ?tile .
     }
 } WHERE {
     ?transporter a arena:Transporter ;
+        arena:status arena:busy ;
         arena:tasks ?taskContainer ;
         arena:locationX ?x ;
         arena:locationY ?y ;
         arena:tile ?t ;
-        arena:tileN ?t1 ;
-        arena:tileNE ?t2 ;
-        arena:tileE ?t3 ;
-        arena:tileSE ?t4 ;
-        arena:tileS ?t5 ;
-        arena:tileSW ?t6 ;
-        arena:tileW ?t7 ;
-        arena:tileNW ?t8 ;
         ?direction ?goalTile .
+
+    OPTIONAL {
+        ?transporter arena:tileN ?t1 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileNE ?t2 .
+    }
+    OPTIONAL {
+         ?transporter arena:tileE ?t3 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileSE ?t4 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileS ?t5 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileSW ?t6 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileW ?t7 .
+    }
+    OPTIONAL {
+        ?transporter arena:tileNW ?t8 .
+    }
 
     VALUES (?direction ?dx ?dy) {
         (arena:tileN 0 -1)
@@ -85,20 +204,266 @@ DELETE {
     FILTER(?newY < ?sizeY && ?newY >= 0)
     BIND(?y + ?dy AS ?newY)
 
-    BIND(?newX - 1 AS ?newXminus1)
-    BIND(?newX + 1 AS ?newXplus1)
-    BIND(?newY - 1 AS ?newYminus1)
-    BIND(?newY + 1 AS ?newYplus1)
-
     BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newY))) AS ?tile)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newYminus1))) AS ?tileN)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newYminus1))) AS ?tileNE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newY))) AS ?tileE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXplus1),"/",xsd:string(?newYplus1))) AS ?tileSE)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newYplus1))) AS ?tileS)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newYplus1))) AS ?tileSW)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newY))) AS ?tileW)
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newXminus1),"/",xsd:string(?newYminus1))) AS ?tileNW)
+};
+
+# Set new neighboring tiles for transporter
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileN ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        BIND(?y - 1 AS ?yMinus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?yMinus1))) AS ?tile)
+        FILTER(?yMinus1 >= 0)
+    # When there is no tile set to nil
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationY ?y .
+
+        BIND(?y - 1 AS ?yMinus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?yMinus1 < 0)
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileNE ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX .
+
+
+        BIND(?y - 1 AS ?yMinus1)
+        BIND(?x + 1 AS ?xPlus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?yMinus1))) AS ?tile)
+
+        FILTER(?yMinus1 >= 0 && ?xPlus1 < ?sizeX)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX ;
+            arena:sizeY ?sizeY .
+
+
+        BIND(?y - 1 AS ?yMinus1)
+        BIND(?x + 1 AS ?xPlus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?yMinus1 < 0 || ?xPlus1 >= ?sizeX)
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileE ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX .
+
+        BIND(?x + 1 AS ?xPlus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?y))) AS ?tile)
+
+        FILTER(?xPlus1 < ?sizeX)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX .
+
+        BIND(?x + 1 AS ?xPlus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?xPlus1 >= ?sizeX)
+
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileSE ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX ;
+            arena:sizeY ?sizeY .
+
+        BIND(?y + 1 AS ?yPlus1)
+        BIND(?x + 1 AS ?xPlus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?yPlus1))) AS ?tile)
+
+        FILTER(?yPlus1 < ?sizeY && ?xPlus1 < ?sizeX)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX ;
+            arena:sizeY ?sizeY .
+
+        BIND(?y + 1 AS ?yPlus1)
+        BIND(?x + 1 AS ?xPlus1)
+
+        FILTER(?yPlus1 >= ?sizeY || ?xPlus1 >= ?sizeX)
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileS ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeX ?sizeX ;
+            arena:sizeY ?sizeY .
+
+        BIND(?y + 1 AS ?yPlus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?yPlus1))) AS ?tile)
+
+        FILTER(?yPlus1 < ?sizeY)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeY ?sizeY .
+
+        BIND(?y + 1 AS ?yPlus1)
+
+        FILTER(?yPlus1 >= ?sizeY)
+
+        BIND(arena:nil AS ?tile)
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileSW ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeY ?sizeY .
+
+        BIND(?y + 1 AS ?yPlus1)
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?yPlus1))) AS ?tile)
+
+        FILTER(?yPlus1 < ?sizeY && ?xMinus1 >= 0)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        ?shopfloor a arena:Shopfloor ;
+            arena:sizeY ?sizeY .
+
+
+        BIND(?y + 1 AS ?yPlus1)
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?yPlus1 >= ?sizeY || ?xMinus1 < 0)
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileW ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x .
+
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?y))) AS ?tile)
+
+        FILTER(?xMinus1 >= 0)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x .
+
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?xMinus1 < 0)
+
+    }
+};
+
+INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:tileNW ?tile .
+    }
+} WHERE {
+    {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        BIND(?y - 1 AS ?yMinus1)
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?yMinus1))) AS ?tile)
+
+        FILTER(?yMinus1 >= 0 && ?xMinus1 >= 0)
+    } UNION {
+        ?transporter a arena:Transporter ;
+            arena:locationX ?x ;
+            arena:locationY ?y .
+
+        BIND(?y - 1 AS ?yMinus1)
+        BIND(?x - 1 AS ?xMinus1)
+
+        BIND(arena:nil AS ?tile)
+        FILTER(?yMinus1 < 0 || ?xMinus1 < 0)
+    }
 };
 
 # Tranporter picks up product from output port
@@ -127,7 +492,7 @@ DELETE {
     }
 };
 
-# Transporter puts products to input ports
+# Transporter puts products to input ports if it fits to station
 DELETE {
     GRAPH ?transporter {
         ?transporter arena:products ?product .
@@ -143,9 +508,11 @@ DELETE {
         arena:products ?product .
 
     ?station a arena:Workstation ;
+        arena:color ?color ;
         arena:inputPort ?port .
 
     ?port arena:locationX ?x ;	
         arena:locationY ?y .
 
+    ?product arena:color ?color .
 };
