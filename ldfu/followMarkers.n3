@@ -88,17 +88,19 @@
 } .
 
 {
-  ?a arena:tileW ?b .
+  ?a arena:tileNW ?b .
 } => {
   [] http:mthd httpm:GET ;
      http:requestURI ?b .
 } .
 
+# If a transporter has a product, get that product
 {
-  ?a arena:tileNW ?b .
+  ?transporter a arena:Transporter ;
+    arena:products ?product .
 } => {
   [] http:mthd httpm:GET ;
-     http:requestURI ?b .
+     http:requestURI ?product .
 } .
 
 # Creating dummy tile with high stigmergy value for tiles that do not exist
@@ -113,10 +115,11 @@
 
 } .
 
-# The random choices of the transporter to move
+# The random choices of the transporter to move if it has no product
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileN ?tileN .
 } => {
@@ -131,6 +134,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileNE ?tileNE .
 } => {
@@ -145,6 +149,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileE ?tileE .
 } => {
@@ -159,6 +164,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileSE ?tileSE .
 } => {
@@ -173,6 +179,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileS ?tileS .
 } => {
@@ -187,6 +194,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileSW ?tileSW .
 } => {
@@ -201,6 +209,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileW ?tileW .
 } => {
@@ -215,6 +224,7 @@
 {
   ?transporter a arena:Transporter ;
     arena:status arena:idle ;
+    arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileNW ?tileNW .
 } => {
@@ -223,6 +233,599 @@
      http:body {
         <> a arena:TransporterTask ;
             rdf:value ?tileNW .
+     } .
+} .
+
+# Transporter moves to the adjacent tile with the lowest stigmergy value if it has a product
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value1 math:notGreaterThan ?value2 .
+    ?value1 math:notGreaterThan ?value3 .
+    ?value1 math:notGreaterThan ?value4 .
+    ?value1 math:notGreaterThan ?value5 .
+    ?value1 math:notGreaterThan ?value6 .
+    ?value1 math:notGreaterThan ?value7 .
+    ?value1 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile1 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value2 math:notGreaterThan ?value1 .
+    ?value2 math:notGreaterThan ?value3 .
+    ?value2 math:notGreaterThan ?value4 .
+    ?value2 math:notGreaterThan ?value5 .
+    ?value2 math:notGreaterThan ?value6 .
+    ?value2 math:notGreaterThan ?value7 .
+    ?value2 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile2 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value3 math:notGreaterThan ?value1 .
+    ?value3 math:notGreaterThan ?value2 .
+    ?value3 math:notGreaterThan ?value4 .
+    ?value3 math:notGreaterThan ?value5 .
+    ?value3 math:notGreaterThan ?value6 .
+    ?value3 math:notGreaterThan ?value7 .
+    ?value3 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile3 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value4 math:notGreaterThan ?value1 .
+    ?value4 math:notGreaterThan ?value2 .
+    ?value4 math:notGreaterThan ?value3 .
+    ?value4 math:notGreaterThan ?value5 .
+    ?value4 math:notGreaterThan ?value6 .
+    ?value4 math:notGreaterThan ?value7 .
+    ?value4 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile4 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value5 math:notGreaterThan ?value1 .
+    ?value5 math:notGreaterThan ?value2 .
+    ?value5 math:notGreaterThan ?value3 .
+    ?value5 math:notGreaterThan ?value4 .
+    ?value5 math:notGreaterThan ?value6 .
+    ?value5 math:notGreaterThan ?value7 .
+    ?value5 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile5 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value6 math:notGreaterThan ?value1 .
+    ?value6 math:notGreaterThan ?value2 .
+    ?value6 math:notGreaterThan ?value3 .
+    ?value6 math:notGreaterThan ?value4 .
+    ?value6 math:notGreaterThan ?value5 .
+    ?value6 math:notGreaterThan ?value7 .
+    ?value6 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile6 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value7 math:notGreaterThan ?value1 .
+    ?value7 math:notGreaterThan ?value2 .
+    ?value7 math:notGreaterThan ?value3 .
+    ?value7 math:notGreaterThan ?value4 .
+    ?value7 math:notGreaterThan ?value5 .
+    ?value7 math:notGreaterThan ?value6 .
+    ?value7 math:notGreaterThan ?value8 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile7 .
+     } .
+} .
+
+{
+  ?transporter a arena:Transporter ;
+    arena:tasks ?taskContainer ;
+    arena:products ?product ;
+    arena:status arena:idle ;
+    arena:tileN ?tile1 ;
+    arena:tileNE ?tile2 ;
+    arena:tileE ?tile3 ;
+    arena:tileSE ?tile4 ;
+    arena:tileS ?tile5 ;
+    arena:tileSW ?tile6 ;
+    arena:tileW ?tile7 ;
+    arena:tileNW ?tile8 .
+
+    ?product a arena:Product ;
+        arena:color ?color .
+
+    ?tile1 a arena:Tile ;
+        arena:marker ?marker1 .
+    ?marker1 arena:color ?color ;
+        arena:value ?value1 .
+
+    ?tile2 a arena:Tile ;
+        arena:marker ?marker2 .
+    ?marker2 arena:color ?color ;
+        arena:value ?value2 .
+
+    ?tile3 a arena:Tile ;
+        arena:marker ?marker3 .
+    ?marker3 arena:color ?color ;
+        arena:value ?value3 .
+
+    ?tile4 a arena:Tile ;
+        arena:marker ?marker4 .
+    ?marker4 arena:color ?color ;
+        arena:value ?value4 .
+
+    ?tile5 a arena:Tile ;
+        arena:marker ?marker5 .
+    ?marker5 arena:color ?color ;
+        arena:value ?value5 .
+
+    ?tile6 a arena:Tile ;
+        arena:marker ?marker6 .
+    ?marker6 arena:color ?color ;
+        arena:value ?value6 .
+
+    ?tile7 a arena:Tile ;
+        arena:marker ?marker7 .
+    ?marker7 arena:color ?color ;
+        arena:value ?value7 .
+
+    ?tile8 a arena:Tile ;
+        arena:marker ?marker8 .
+    ?marker8 arena:color ?color ;
+        arena:value ?value8 .
+
+    ?value8 math:notGreaterThan ?value1 .
+    ?value8 math:notGreaterThan ?value2 .
+    ?value8 math:notGreaterThan ?value3 .
+    ?value8 math:notGreaterThan ?value4 .
+    ?value8 math:notGreaterThan ?value5 .
+    ?value8 math:notGreaterThan ?value6 .
+    ?value8 math:notGreaterThan ?value7 .
+
+} => {
+  [] http:mthd httpm:POST ;
+     http:requestURI ?taskContainer ;
+     http:body {
+        <> a arena:TransporterTask ;
+            rdf:value ?tile8 .
      } .
 } .
 

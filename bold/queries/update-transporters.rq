@@ -129,82 +129,63 @@ DELETE {
             arena:tileNW ?t8 .
     }
     GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?task .
-    }
-    GRAPH ?task {
-        ?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
+        ?taskContainer ldp:contains ?o .
     }
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:locationX ?newX ;
             arena:locationY ?newY ;
-            arena:tile ?tile .
+            arena:tile ?goalTile .
     }
 } WHERE {
     ?transporter a arena:Transporter ;
         arena:status arena:busy ;
-        arena:tasks ?taskContainer ;
         arena:locationX ?x ;
         arena:locationY ?y ;
         arena:tile ?t ;
-        ?direction ?goalTile .
+        ?direction ?goalTile ;
+        arena:tileN ?t1 ;
+        arena:tileNE ?t2 ;
+        arena:tileE ?t3 ;
+        arena:tileSE ?t4 ;
+        arena:tileS ?t5 ;
+        arena:tileSW ?t6 ;
+        arena:tileW ?t7 ;
+        arena:tileNW ?t8 .
+ 
+    {   
+        SELECT ?taskContainer ?o ?transporter ?goalTile
+        WHERE {
+            ?taskContainer ldp:contains ?o .
+            {
+                SELECT ?transporter ?goalTile ?taskContainer
+                WHERE {
+                    ?transporter arena:tasks ?taskContainer .
+                    ?taskContainer ldp:contains ?task .
 
-    OPTIONAL {
-        ?transporter arena:tileN ?t1 .
+                    GRAPH ?task{
+                    ?someTask a arena:TransporterTask ;
+                        rdf:value ?goalTile .
+                    }
+                }
+		ORDER BY RAND()
+                LIMIT 1
+            }
+        }
     }
-    OPTIONAL {
-        ?transporter arena:tileNE ?t2 .
-    }
-    OPTIONAL {
-         ?transporter arena:tileE ?t3 .
-    }
-    OPTIONAL {
-        ?transporter arena:tileSE ?t4 .
-    }
-    OPTIONAL {
-        ?transporter arena:tileS ?t5 .
-    }
-    OPTIONAL {
-        ?transporter arena:tileSW ?t6 .
-    }
-    OPTIONAL {
-        ?transporter arena:tileW ?t7 .
-    }
-    OPTIONAL {
-        ?transporter arena:tileNW ?t8 .
-    }
-
-    VALUES (?direction ?dx ?dy) {
-        (arena:tileN 0 -1)
-        (arena:tileNE 1 -1)
-        (arena:tileE 1 0)
-        (arena:tileSE 1 1)
-        (arena:tileS 0 1)
-        (arena:tileSW -1 1)
-        (arena:tileW -1 0)
-        (arena:tileNW -1 -1)
-    }
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-
 
     ?shopfloor a arena:Shopfloor ;
         arena:sizeX ?sizeX ;
         arena:sizeY ?sizeY .
 
     FILTER(?newX < ?sizeX && ?newX >= 0)
-    BIND(?x + ?dx AS ?newX)
 
     FILTER(?newY < ?sizeY && ?newY >= 0)
-    BIND(?y + ?dy AS ?newY)
 
-    BIND(URI(CONCAT("/shopfloor/",xsd:string(?newX),"/",xsd:string(?newY))) AS ?tile)
+    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/(\\d+)/\\d+", "$1")) AS ?newX)
+    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/\\d+/(\\d+)", "$1")) AS ?newY)
+    
+
 };
 
 # Set new neighboring tiles for transporter
@@ -337,6 +318,7 @@ INSERT {
         BIND(?y + 1 AS ?yPlus1)
         BIND(?x + 1 AS ?xPlus1)
 
+        BIND(arena:nil AS ?tile)
         FILTER(?yPlus1 >= ?sizeY || ?xPlus1 >= ?sizeX)
     }
 };
@@ -418,7 +400,8 @@ INSERT {
 } WHERE {
     {
         ?transporter a arena:Transporter ;
-            arena:locationX ?x .
+            arena:locationX ?x ;
+            arena:locationX ?y .
 
         BIND(?x - 1 AS ?xMinus1)
 
@@ -471,25 +454,32 @@ DELETE {
     GRAPH ?station {
         ?port arena:products ?product .
     }
+    GRAPH ?transporter {
+        ?transporter arena:products arena:nil .
+    }
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:products ?product .
     }
 } WHERE {
-    ?transporter a arena:Transporter ;
-        arena:locationX ?x ;	
-        arena:locationY ?y .
+    {
+        SELECT ?transporter ?product ?port ?station
+        WHERE {
+            ?transporter a arena:Transporter ;
+                arena:locationX ?x ;	
+                arena:locationY ?y ;
+                arena:products arena:nil .
 
-    ?station a arena:Workstation ;
-        arena:outputPort ?port .
-
-    ?port arena:locationX ?x ;	
-        arena:locationY ?y ;
-        arena:products ?product .
-
-    FILTER NOT EXISTS {
-        ?transporter arena:products ?p .
+            ?station a arena:Workstation ;
+                arena:outputPort ?port .
+        
+            ?port arena:locationX ?x ;	
+                arena:locationY ?y ;
+                arena:products ?product .
+        }
+        LIMIT 1
     }
+
 };
 
 # Transporter puts products to input ports if it fits to station
@@ -500,6 +490,9 @@ DELETE {
 } INSERT {
     GRAPH ?station {
         ?port arena:products ?product .
+    }
+    GRAPH ?transporter {
+        ?transporter arena:products arena:nil .
     }
 } WHERE {
     ?transporter a arena:Transporter ;

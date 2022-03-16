@@ -129,11 +129,11 @@ DELETE {
         ?port arena:products ?product .
     }
     GRAPH </productsDelivered> {
-        </productsDelivered> rdf:value ?counter .
+        ?c rdf:value ?counter .
     }
 } INSERT {
     GRAPH </productsDelivered> {
-        </productsDelivered> rdf:value ?newCounter .
+        ?c rdf:value ?newCounter .
     }
 } WHERE {
     ?station a arena:Workstation ;
@@ -144,7 +144,10 @@ DELETE {
 
     ?product arena:color ?color .
 
-    </productsDelivered> rdf:value ?counter .
+    </productsDelivered> arena:hasCounter ?c .
+
+    ?c arena:color ?color ;
+         rdf:value ?counter .
     
     BIND(?counter + 1 AS ?newCounter)
 };

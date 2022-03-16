@@ -11,7 +11,19 @@
 }
 
 </productsDelivered> {
-    </productsDelivered> rdf:value 0 .
+    </productsDelivered> arena:hasCounter [
+        arena:color arena:red ;
+        rdf:value 0
+    ], [
+        arena:color arena:blue ;
+        rdf:value 0
+    ], [
+        arena:color arena:green ;
+        rdf:value 0
+    ], [
+        arena:color arena:yellow ;
+        rdf:value 0
+    ] .
 }
 
 </colors> {
@@ -140,6 +152,7 @@
         arena:locationY 0 ;
         arena:tile </shopfloor/0/0> ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/1/tasks> .
 }
@@ -152,6 +165,7 @@
     </transporters/2> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/2/tasks> .
 }
@@ -164,6 +178,7 @@
     </transporters/3> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/3/tasks> .
 }
@@ -176,6 +191,7 @@
     </transporters/4> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/4/tasks> .
 }
@@ -188,6 +204,7 @@
     </transporters/5> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/5/tasks> .
 }
@@ -200,6 +217,7 @@
     </transporters/6> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/6/tasks> .
 }
@@ -212,6 +230,7 @@
     </transporters/7> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/7/tasks> .
 }
@@ -224,6 +243,7 @@
     </transporters/8> a arena:Transporter ;
         arena:status arena:idle ;
         arena:speed 1 ;
+        arena:products arena:nil ;
         arena:capacity 1 ;
         arena:tasks </transporters/8/tasks> .
 }
