@@ -20,7 +20,7 @@ export const stationsSlice = createSlice({
   name: 'stations',
   initialState,
   reducers: {
-    setColor: (state, action: PayloadAction<[string,string]>) => {
+    setStationColor: (state, action: PayloadAction<[string,string]>) => {
       let station = state.stations.find((station: StationState): boolean => station.uri === action.payload[0]);
       if(station === undefined) {
         state.stations.push({
@@ -33,7 +33,7 @@ export const stationsSlice = createSlice({
         station.color = action.payload[1];
       }
     },
-    setLocationX: (state, action: PayloadAction<[string,string]>) => {
+    setStationLocationX: (state, action: PayloadAction<[string,string]>) => {
       let station = state.stations.find((station: StationState): boolean => station.uri === action.payload[0]);
       if(station === undefined) {
         state.stations.push({
@@ -46,7 +46,7 @@ export const stationsSlice = createSlice({
         station.locationX = parseInt(action.payload[1]);
       }
     },
-    setLocationY: (state, action: PayloadAction<[string,string]>) => {
+    setStationLocationY: (state, action: PayloadAction<[string,string]>) => {
       let station = state.stations.find((station: StationState): boolean => station.uri === action.payload[0]);
       if(station === undefined) {
         state.stations.push({
@@ -62,9 +62,8 @@ export const stationsSlice = createSlice({
   }
 })
 
-export const { setColor, setLocationX, setLocationY } = stationsSlice.actions
+export const { setStationColor, setStationLocationX, setStationLocationY } = stationsSlice.actions
 
 export const selectStations = (state: RootState) => state.stations.stations;
-//export const selectSizeY = (state: RootState) => state.shopfloor.sizeY
 
 export default stationsSlice.reducer

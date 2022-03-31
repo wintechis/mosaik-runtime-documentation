@@ -1,11 +1,13 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import shopfloorReducer from '../features/shopfloor/shopfloorSlice';
 import stationsReducer from '../features/stations/stationsSlice';
+import transportersReducer from '../features/transporters/transportersSlice';
 
 export const store = configureStore({
   reducer: {
     shopfloor: shopfloorReducer,
     stations: stationsReducer,
+    transporters: transportersReducer,
   },
 });
 
