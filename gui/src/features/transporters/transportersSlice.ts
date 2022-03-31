@@ -10,6 +10,7 @@ interface TransporterState {
   idle: boolean;
   locationX: number;
   locationY: number;
+	product: string | undefined;
 }
 
 const initialState: TransportersState = {
@@ -29,6 +30,7 @@ export const transportersSlice = createSlice({
           idle: idle,
           locationX: 0,
           locationY: 0,
+          product: undefined,
         });
       } else {
         station.idle = idle;
@@ -42,6 +44,7 @@ export const transportersSlice = createSlice({
           idle: true,
           locationX: parseInt(action.payload[1]),
           locationY: 0,
+          product: undefined,
         });
       } else {
         station.locationX = parseInt(action.payload[1]);
@@ -55,15 +58,30 @@ export const transportersSlice = createSlice({
           idle: true,
           locationX: 0,
           locationY: parseInt(action.payload[1]),
+          product: undefined,
         });
       } else {
         station.locationY = parseInt(action.payload[1]);
       }
     },
+    setTransporterProduct: (state, action: PayloadAction<[string,string]>) => {
+      let transporter = state.transporters.find((station: TransporterState): boolean => station.uri === action.payload[0]);
+      if(transporter === undefined) {
+        state.transporters.push({
+          uri: action.payload[0],
+          idle: true,
+          locationX: 0,
+          locationY: 0,
+          product: action.payload[1]
+        });
+      } else {
+        transporter.product = action.payload[1];
+      }
+    },
   }
 })
 
-export const { setTransporterIdle, setTransporterLocationX, setTransporterLocationY } = transportersSlice.actions
+export const { setTransporterIdle, setTransporterLocationX, setTransporterLocationY, setTransporterProduct } = transportersSlice.actions
 
 export const selectTransporters = (state: RootState) => state.transporters.transporters;
 

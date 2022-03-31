@@ -5,7 +5,7 @@ import { selectStations } from './stationsSlice';
 
 export function Stations() {
     const stationStates = useAppSelector(selectStations);
-    let stations = stationStates.map((s, idx) => <Station key={idx} x={s.locationX} y={s.locationY} color={s.color} />)
+    let stations = stationStates.map((s, idx) => <Station key={idx} x={s.locationX} y={s.locationY} color={s.color} product={s.product} />)
  
     return (
       <>

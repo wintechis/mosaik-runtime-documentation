@@ -10,6 +10,7 @@ interface StationState {
   color: string;
   locationX: number;
   locationY: number;
+  product: string | undefined;
 }
 
 const initialState: StationsState = {
@@ -28,6 +29,7 @@ export const stationsSlice = createSlice({
           color: action.payload[1],
           locationX: 0,
           locationY: 0,
+          product: undefined,
         });
       } else {
         station.color = action.payload[1];
@@ -41,6 +43,7 @@ export const stationsSlice = createSlice({
           color: 'white',
           locationX: parseInt(action.payload[1]),
           locationY: 0,
+          product: undefined,
         });
       } else {
         station.locationX = parseInt(action.payload[1]);
@@ -54,15 +57,30 @@ export const stationsSlice = createSlice({
           color: 'white',
           locationX: 0,
           locationY: parseInt(action.payload[1]),
+          product: undefined,
         });
       } else {
         station.locationY = parseInt(action.payload[1]);
       }
     },
+    setStationProduct: (state, action: PayloadAction<[string,string]>) => {
+      let station = state.stations.find((station: StationState): boolean => station.uri === action.payload[0]);
+      if(station === undefined) {
+        state.stations.push({
+          uri: action.payload[0],
+          color: 'white',
+          locationX: 0,
+          locationY: 0,
+          product: action.payload[1],
+        });
+      } else {
+        station.product = action.payload[1];
+      }
+    },
   }
 })
 
-export const { setStationColor, setStationLocationX, setStationLocationY } = stationsSlice.actions
+export const { setStationColor, setStationLocationX, setStationLocationY, setStationProduct } = stationsSlice.actions
 
 export const selectStations = (state: RootState) => state.stations.stations;
 
