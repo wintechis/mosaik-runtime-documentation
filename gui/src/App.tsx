@@ -50,7 +50,7 @@ function App() {
 							port2StationMap.set(quad.object.id, quad.subject.id);
 						} 
 					} else if(quad.subject.id.startsWith('http://127.0.1.1:8080/transporters/')) {
-						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#idle') {
+						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#status') {
 							dispatch(setTransporterIdle([quad.subject.id, quad.object.value]));
 						} else if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#locationX') {
 							dispatch(setTransporterLocationX([quad.subject.id, quad.object.value.replace('https://solid.ti.rw.fau.de/public/ns/arena#','')]));
