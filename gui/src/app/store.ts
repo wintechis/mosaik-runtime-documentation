@@ -3,6 +3,7 @@ import shopfloorReducer from '../features/shopfloor/shopfloorSlice';
 import stationsReducer from '../features/stations/stationsSlice';
 import transportersReducer from '../features/transporters/transportersSlice';
 import productsReducer from '../features/products/productsSlice';
+import statsReducer from '../features/stats/statsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     stations: stationsReducer,
     transporters: transportersReducer,
     products: productsReducer,
+    stats: statsReducer,
   },
 });
 

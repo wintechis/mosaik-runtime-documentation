@@ -10,6 +10,7 @@ import { Stations } from './features/stations/Stations';
 import { Transporters } from './features/transporters/Transporters';
 import { setTransporterIdle, setTransporterLocationX, setTransporterLocationY, setTransporterProduct } from './features/transporters/transportersSlice';
 import { setProductColor } from './features/products/productsSlice';
+import { Stats } from './features/stats/Stats';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -76,19 +77,22 @@ function App() {
 		}
 	}, [dispatch]);
 	return (
-		<ReactReduxContext.Consumer>
-			{((ctx: ReactReduxContextValue) => (
-				<Stage width={1000} height={1000} offsetX={-1} offsetY={-1} style={{margin: '30px', maxWidth: '100%'}}>
-					<Provider store={ctx.store}>
-						<Layer>
-							<Shopfloor />
-							<Stations />
-							<Transporters />
-						</Layer>
-					</Provider>
-				</Stage>
-			))}
-		</ReactReduxContext.Consumer>
+		<>
+			<Stats />
+			<ReactReduxContext.Consumer>
+				{((ctx: ReactReduxContextValue) => (
+					<Stage width={1000} height={1000} offsetX={-1} offsetY={-1} style={{margin: '30px', maxWidth: '100%'}}>
+						<Provider store={ctx.store}>
+							<Layer>
+								<Shopfloor />
+								<Stations />
+								<Transporters />
+							</Layer>
+						</Provider>
+					</Stage>
+				))}
+			</ReactReduxContext.Consumer>
+		</>
 	);
 }
 
