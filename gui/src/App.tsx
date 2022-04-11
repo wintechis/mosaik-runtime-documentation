@@ -11,6 +11,7 @@ import { Transporters } from './features/transporters/Transporters';
 import { setTransporterIdle, setTransporterLocationX, setTransporterLocationY, setTransporterProduct } from './features/transporters/transportersSlice';
 import { setProductColor } from './features/products/productsSlice';
 import { Stats } from './features/stats/Stats';
+import { setStatsProductsDelivered } from './features/stats/statsSlice';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -19,6 +20,9 @@ function App() {
 		const parser = new Parser({ format: 'N-Triples' });
 		let port2StationMap: Map<string,string> = new Map();
 		let port2ProductMap: Map<string,string> = new Map();
+		let counter2ColorMap: Map<string,string> = new Map();
+		let counter2CountMap: Map<string,string> = new Map();
+		let counterList: string[] = [];
 		ws.onmessage = function(message) {
 			parser.parse(message.data, (error, quad, prefixes) => {
 				if(error) {
@@ -59,6 +63,17 @@ function App() {
 						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#color') {
 							dispatch(setProductColor([quad.subject.id, quad.object.value]));
 						} 
+					} else if(quad.subject.id === 'http://127.0.1.1:8080/productsDelivered') {
+						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#hasCounter') {
+							let color = counter2ColorMap.get(quad.object.id);
+							let count = counter2CountMap.get(quad.object.id);
+							console.log('arena:hasCounter ' + color + ', ' + count);
+							if(color && count) {
+								console.log('dispatched ' + color + ': ' + count);
+								dispatch(setStatsProductsDelivered([color, count]));
+							}
+							counterList.push(quad.object.id);
+						} 
 					} else if(quad.subject.termType === "BlankNode") {
 						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#products') {
 							let station = port2StationMap.get(quad.subject.id);
@@ -66,7 +81,25 @@ function App() {
 								dispatch(setStationProduct([station, quad.object.id]));
 							}
 							port2ProductMap.set(quad.subject.id, quad.object.id);
-						} 
+						} else if(quad.predicate.id === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value') {
+							let counter = counterList.find((c: string) => c === quad.subject.id)
+							let color = counter2ColorMap.get(quad.subject.id);
+							console.log(quad.subject.id + ' rdf:value ' + counter + ', ' + color);
+							if(counter && color) {
+								console.log('dispatched ' + color + ': ' + quad.object.value);
+								dispatch(setStatsProductsDelivered([color, quad.object.value]));
+							}
+							counter2CountMap.set(quad.subject.id, quad.object.value);
+						} else if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#color') {
+							let count = counter2CountMap.get(quad.subject.id);
+							let counter = counterList.find((c: string) => c === quad.subject.id)
+							console.log(quad.subject.id + ' arena:color ' + count + ', ' + counter);
+							if(counter && count) {
+								console.log('dispatched ' + quad.object.value + ': ' + count);
+								dispatch(setStatsProductsDelivered([quad.object.value, count]));
+							}
+							counter2ColorMap.set(quad.subject.id, quad.object.value);
+						}
 					}
 				}
 			});
