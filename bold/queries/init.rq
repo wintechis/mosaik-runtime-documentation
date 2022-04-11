@@ -10,12 +10,13 @@ DELETE {
     GRAPH ?transporter {
         ?transporter arena:locationX ?posX ;
             arena:locationY ?posY ;
+            arena:successfulMov 0 ;
+            arena:discardedTasksBlocked 0 ;
+            arena:discardedTasksInvalid 0 ;
             arena:tile ?tile .
     }
 } WHERE {
     ?transporter a arena:Transporter .
-
-    FILTER(?transporter != <http://127.0.1.1:8080/transporters/1>)
 
     ?shopfloor a arena:Shopfloor ;
         arena:sizeX ?sizeX ;
@@ -44,7 +45,8 @@ DELETE {
             ], [
                 arena:color arena:green ;
                 arena:value 1000
-            ] .
+            ] ;
+            arena:occupiedBy arena:nil . 
     }
 } WHERE {
     VALUES (?x) {

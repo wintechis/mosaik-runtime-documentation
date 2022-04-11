@@ -13,13 +13,33 @@
 
 # Dummy marker
 <#dummyMarkerRed> arena:color arena:red ;
-    arena:value "1001"^^xsd:integer .
+    arena:internalValue "1002"^^xsd:integer .
 <#dummyMarkerGreen> arena:color arena:green ;
-    arena:value "1001"^^xsd:integer .
+    arena:internalValue "1002"^^xsd:integer .
 <#dummyMarkerYellow> arena:color arena:yellow ;
-    arena:value "1001"^^xsd:integer .
+    arena:internalValue "1002"^^xsd:integer .
 <#dummyMarkerBlue> arena:color arena:blue ;
-    arena:value "1001"^^xsd:integer .
+    arena:internalValue "1002"^^xsd:integer .
+
+{
+  ?tile a arena:Tile ;
+    arena:marker ?marker ;
+    arena:occupiedBy arena:nil .
+
+  ?marker arena:value ?value .
+} => {
+  ?marker arena:internalValue ?value .
+} .
+
+{
+  ?tile a arena:Tile ;
+    arena:marker ?marker ;
+    arena:occupiedBy ?transporter .
+
+  ?transporter log:notEqualTo arena:nil .
+} => {
+  ?marker arena:internalValue "1001"^^xsd:integer .
+} .
 
 # Get root
 {
@@ -94,6 +114,13 @@
      http:requestURI ?b .
 } .
 
+{
+  ?a arena:tileW ?b .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?b .
+} .
+
 # If a transporter has a product, get that product
 {
   ?transporter a arena:Transporter ;
@@ -122,6 +149,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileN ?tileN .
+
+  ?tileN a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -137,6 +167,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileNE ?tileNE .
+
+  ?tileNE a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -152,6 +185,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileE ?tileE .
+
+  ?tileE a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -167,6 +203,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileSE ?tileSE .
+
+  ?tileSE a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -182,6 +221,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileS ?tileS .
+
+  ?tileS a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -197,6 +239,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileSW ?tileSW .
+
+  ?tileSW a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -212,6 +257,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileW ?tileW .
+
+  ?tileW a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -227,6 +275,9 @@
     arena:products arena:nil ;
     arena:tasks ?taskContainer ;
     arena:tileNW ?tileNW .
+
+  ?tileNW a arena:Tile ;
+    arena:occupiedBy arena:nil .
 } => {
   [] http:mthd httpm:POST ;
      http:requestURI ?taskContainer ;
@@ -257,42 +308,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value1 math:notGreaterThan ?value2 .
     ?value1 math:notGreaterThan ?value3 .
@@ -331,42 +382,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value2 math:notGreaterThan ?value1 .
     ?value2 math:notGreaterThan ?value3 .
@@ -405,42 +456,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value3 math:notGreaterThan ?value1 .
     ?value3 math:notGreaterThan ?value2 .
@@ -479,42 +530,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value4 math:notGreaterThan ?value1 .
     ?value4 math:notGreaterThan ?value2 .
@@ -553,42 +604,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value5 math:notGreaterThan ?value1 .
     ?value5 math:notGreaterThan ?value2 .
@@ -627,42 +678,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value6 math:notGreaterThan ?value1 .
     ?value6 math:notGreaterThan ?value2 .
@@ -701,42 +752,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value7 math:notGreaterThan ?value1 .
     ?value7 math:notGreaterThan ?value2 .
@@ -775,42 +826,42 @@
     ?tile1 a arena:Tile ;
         arena:marker ?marker1 .
     ?marker1 arena:color ?color ;
-        arena:value ?value1 .
+        arena:internalValue ?value1 .
 
     ?tile2 a arena:Tile ;
         arena:marker ?marker2 .
     ?marker2 arena:color ?color ;
-        arena:value ?value2 .
+        arena:internalValue ?value2 .
 
     ?tile3 a arena:Tile ;
         arena:marker ?marker3 .
     ?marker3 arena:color ?color ;
-        arena:value ?value3 .
+        arena:internalValue ?value3 .
 
     ?tile4 a arena:Tile ;
         arena:marker ?marker4 .
     ?marker4 arena:color ?color ;
-        arena:value ?value4 .
+        arena:internalValue ?value4 .
 
     ?tile5 a arena:Tile ;
         arena:marker ?marker5 .
     ?marker5 arena:color ?color ;
-        arena:value ?value5 .
+        arena:internalValue ?value5 .
 
     ?tile6 a arena:Tile ;
         arena:marker ?marker6 .
     ?marker6 arena:color ?color ;
-        arena:value ?value6 .
+        arena:internalValue ?value6 .
 
     ?tile7 a arena:Tile ;
         arena:marker ?marker7 .
     ?marker7 arena:color ?color ;
-        arena:value ?value7 .
+        arena:internalValue ?value7 .
 
     ?tile8 a arena:Tile ;
         arena:marker ?marker8 .
     ?marker8 arena:color ?color ;
-        arena:value ?value8 .
+        arena:internalValue ?value8 .
 
     ?value8 math:notGreaterThan ?value1 .
     ?value8 math:notGreaterThan ?value2 .
@@ -844,13 +895,13 @@
   ?marker arena:color ?color .
 
   ?marker1 arena:color ?color1 ;
-    arena:value ?value1 .
+    arena:internalValue ?value1 .
 
   ?marker2 arena:color ?color2 ;
-    arena:value ?value2 .
+    arena:internalValue ?value2 .
 
   ?marker3 arena:color ?color3 ;
-    arena:value ?value3 .
+    arena:internalValue ?value3 .
 
   ?color log:notEqualTo ?color1 .
   ?color log:notEqualTo ?color2 .
@@ -866,16 +917,16 @@
            arena:marker _:bn, _:b1, _:b2, _:b3 .
 
        _:bn arena:color ?color ;
-            arena:value "0"^^xsd:integer .
+            arena:internalValue "0"^^xsd:integer .
 
        _:b1 arena:color ?color1 ;
-            arena:value ?value1 .
+            arena:internalValue ?value1 .
 
        _:b2 arena:color ?color2 ;
-            arena:value ?value2 .
+            arena:internalValue ?value2 .
 
        _:b3 arena:color ?color3 ;
-            arena:value ?value3 .
+            arena:internalValue ?value3 .
      } .
 } .
 
@@ -891,22 +942,22 @@
     arena:marker ?ourMarker, ?marker1, ?marker2, ?marker3 .
 
   ?ourMarker arena:color ?color ;
-    arena:value ?ourValue .
+    arena:internalValue ?ourValue .
 
   ?tile a arena:Tile ;
     arena:marker ?marker .
 
   ?marker arena:color ?color ;
-    arena:value ?value .
+    arena:internalValue ?value .
 
   ?marker1 arena:color ?color1 ;
-    arena:value ?value1 .
+    arena:internalValue ?value1 .
 
   ?marker2 arena:color ?color2 ;
-    arena:value ?value2 .
+    arena:internalValue ?value2 .
 
   ?marker3 arena:color ?color3 ;
-    arena:value ?value3 .
+    arena:internalValue ?value3 .
 
   ?color log:notEqualTo ?color1 .
   ?color log:notEqualTo ?color2 .
@@ -917,6 +968,8 @@
 
   (?value "1"^^xsd:integer) math:sum ?valuePlusOne .
 
+  (?valuePlusOne xsd:integer) log:dtlit ?valuePlusOneTyped .
+
   ?valuePlusOne math:lessThan ?ourValue .
 } => {
   [] http:mthd httpm:PUT ;
@@ -926,15 +979,15 @@
            arena:marker _:bour, _:b1, _:b2, _:b3 .
 
        _:bour arena:color ?color ;
-            arena:value ?valuePlusOne .
+            arena:internalValue ?valuePlusOneTyped .
 
        _:b1 arena:color ?color1 ;
-            arena:value ?value1 .
+            arena:internalValue ?value1 .
 
        _:b2 arena:color ?color2 ;
-            arena:value ?value2 .
+            arena:internalValue ?value2 .
 
        _:b3 arena:color ?color3 ;
-            arena:value ?value3 .
+            arena:internalValue ?value3 .
      } .
 } .

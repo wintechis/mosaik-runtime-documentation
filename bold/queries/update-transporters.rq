@@ -54,8 +54,16 @@ DELETE {
         ?someTask a arena:TransporterTask ;
             rdf:value ?goalTile .
     }
+    GRAPH ?transporter {
+        ?transporter arena:discardedTasksInvalid ?discTask .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:discardedTasksInvalid ?discTaskPlusOne .
+    }
 } WHERE {
     ?transporter a arena:Transporter ;
+        arena:discardedTasksInvalid ?discTask ;
         arena:tasks ?taskContainer .
 
     ?taskContainer ldp:contains ?task .
@@ -68,6 +76,42 @@ DELETE {
     FILTER NOT EXISTS {
         ?transporter ?direction ?goalTile .
     }
+
+    BIND(?discTask + 1 AS ?discTaskPlusOne)
+};
+
+# If a transporter has a task with a goal tile that is currently blocked, delete it
+DELETE {
+    GRAPH ?taskContainer {
+        ?taskContainer ldp:contains ?task .
+}
+    GRAPH ?task {
+        ?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+    GRAPH ?transporter {
+        ?transporter arena:discardedTasksBlocked ?discTask .
+    }
+} INSERT {
+    GRAPH ?transporter {
+        ?transporter arena:discardedTasksBlocked ?discTaskPlusOne .
+    }
+} WHERE {
+    ?transporter a arena:Transporter ;
+        arena:discardedTasksBlocked ?discTask ;
+        arena:tasks ?taskContainer .
+
+    ?taskContainer ldp:contains ?task .
+
+    GRAPH ?task{
+    	?someTask a arena:TransporterTask ;
+            rdf:value ?goalTile .
+    }
+
+    ?otherTransporter a arena:Transporter ;
+        arena:tile ?goalTile .
+
+    BIND(?discTask + 1 AS ?discTaskPlusOne)
 };
 
 # If a transporter has a task that goes out of bounds, delete it
@@ -118,6 +162,7 @@ DELETE {
     GRAPH ?transporter {
         ?transporter arena:locationX ?x ;
             arena:locationY ?y ;
+            arena:successfulMov ?succMov ;
             arena:tile ?t ;
             arena:tileN ?t1 ;
             arena:tileNE ?t2 ;
@@ -131,15 +176,35 @@ DELETE {
     GRAPH ?taskContainer {
         ?taskContainer ldp:contains ?o .
     }
+    GRAPH ?t {
+        ?t arena:occupiedBy ?transporter .
+    }
+    GRAPH ?goalTile {
+        ?goalTile arena:occupiedBy arena:nil .
+    }
+    GRAPH <http://127.0.1.1:8080/transporterPos> {
+        ?transporter arena:tile ?t .
+    }
 } INSERT {
     GRAPH ?transporter {
         ?transporter arena:locationX ?newX ;
+            arena:successfulMov ?succMovPlusOne ;
             arena:locationY ?newY ;
             arena:tile ?goalTile .
+    }
+    GRAPH ?t {
+        ?t arena:occupiedBy arena:nil .
+    }
+    GRAPH ?goalTile {
+        ?goalTile arena:occupiedBy ?transporter .
+    }
+    GRAPH <http://127.0.1.1:8080/transporterPos> {
+        ?transporter arena:tile ?goalTile .
     }
 } WHERE {
     ?transporter a arena:Transporter ;
         arena:status arena:busy ;
+        arena:successfulMov ?succMov ;
         arena:locationX ?x ;
         arena:locationY ?y ;
         arena:tile ?t ;
@@ -168,10 +233,15 @@ DELETE {
                         rdf:value ?goalTile .
                     }
                 }
-		ORDER BY RAND()
+                ORDER BY RAND()
                 LIMIT 1
             }
         }
+    }
+
+    FILTER NOT EXISTS {
+        ?otherTransporter a arena:Transporter ;
+            arena:tile ?goalTile .
     }
 
     ?shopfloor a arena:Shopfloor ;
@@ -185,7 +255,7 @@ DELETE {
     BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/(\\d+)/\\d+", "$1")) AS ?newX)
     BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/\\d+/(\\d+)", "$1")) AS ?newY)
     
-
+    BIND(?succMov + 1 AS ?succMovPlusOne)
 };
 
 # Set new neighboring tiles for transporter
