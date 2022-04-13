@@ -3,7 +3,7 @@ import { Layer, Stage } from 'react-konva';
 import { Shopfloor } from './features/shopfloor/Shopfloor';
 import { Provider, ReactReduxContext, ReactReduxContextValue } from 'react-redux';
 import { Parser } from 'n3';
-import { setSizeX, setSizeY } from './features/shopfloor/shopfloorSlice';
+import { setSizeX, setSizeY, setMarker } from './features/shopfloor/shopfloorSlice';
 import { useAppDispatch } from './app/hooks';
 import { setStationColor, setStationLocationX, setStationLocationY, setStationProduct } from './features/stations/stationsSlice';
 import { Stations } from './features/stations/Stations';
@@ -12,6 +12,7 @@ import { setTransporterIdle, setTransporterLocationX, setTransporterLocationY, s
 import { setProductColor } from './features/products/productsSlice';
 import { Stats } from './features/stats/Stats';
 import { setStatsProductsDelivered } from './features/stats/statsSlice';
+import { ActiveColorChooser } from './features/shopfloor/ActiveColorChooser';
 
 function App() {
 	const dispatch = useAppDispatch();
@@ -29,11 +30,20 @@ function App() {
 					console.error(error);
 				}
 				if(quad) {
-					if(quad.subject.id === 'http://127.0.1.1:8080/shopfloor') {
+					let markerMatch = quad.subject.id.match('^http://127\\.0\\.1\\.1:8080/shopfloor/(\\d+)/(\\d+)/markers/(.+)$');
+					if(markerMatch) {
+						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#value') {
+							dispatch(setMarker([parseInt(markerMatch[1]), parseInt(markerMatch[2]), markerMatch[3], parseInt(quad.object.value)]));
+						}
+					} else if(quad.subject.id === 'http://127.0.1.1:8080/shopfloor') {
 						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#sizeX') {
 							dispatch(setSizeX(parseInt(quad.object.value)));
 						} else if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#sizeY') {
 							dispatch(setSizeY(parseInt(quad.object.value)));
+						}
+					} else if(quad.subject.id.startsWith('http://127.0.1.1:8080/shopfloor/')) {
+						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#sizeX') {
+							dispatch(setSizeX(parseInt(quad.object.value)));
 						}
 					} else if(quad.subject.id.startsWith('http://127.0.1.1:8080/stations/')) {
 						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#color') {
@@ -67,9 +77,7 @@ function App() {
 						if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#hasCounter') {
 							let color = counter2ColorMap.get(quad.object.id);
 							let count = counter2CountMap.get(quad.object.id);
-							console.log('arena:hasCounter ' + color + ', ' + count);
 							if(color && count) {
-								console.log('dispatched ' + color + ': ' + count);
 								dispatch(setStatsProductsDelivered([color, count]));
 							}
 							counterList.push(quad.object.id);
@@ -84,18 +92,14 @@ function App() {
 						} else if(quad.predicate.id === 'http://www.w3.org/1999/02/22-rdf-syntax-ns#value') {
 							let counter = counterList.find((c: string) => c === quad.subject.id)
 							let color = counter2ColorMap.get(quad.subject.id);
-							console.log(quad.subject.id + ' rdf:value ' + counter + ', ' + color);
 							if(counter && color) {
-								console.log('dispatched ' + color + ': ' + quad.object.value);
 								dispatch(setStatsProductsDelivered([color, quad.object.value]));
 							}
 							counter2CountMap.set(quad.subject.id, quad.object.value);
 						} else if(quad.predicate.id === 'https://solid.ti.rw.fau.de/public/ns/arena#color') {
 							let count = counter2CountMap.get(quad.subject.id);
 							let counter = counterList.find((c: string) => c === quad.subject.id)
-							console.log(quad.subject.id + ' arena:color ' + count + ', ' + counter);
 							if(counter && count) {
-								console.log('dispatched ' + quad.object.value + ': ' + count);
 								dispatch(setStatsProductsDelivered([quad.object.value, count]));
 							}
 							counter2ColorMap.set(quad.subject.id, quad.object.value);
@@ -111,7 +115,7 @@ function App() {
 	}, [dispatch]);
 	return (
 		<>
-			<Stats />
+			<ActiveColorChooser />
 			<ReactReduxContext.Consumer>
 				{((ctx: ReactReduxContextValue) => (
 					<Stage width={1000} height={1000} offsetX={-1} offsetY={-1} style={{margin: '30px', maxWidth: '100%'}}>
