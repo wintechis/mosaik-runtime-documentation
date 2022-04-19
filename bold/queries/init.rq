@@ -33,20 +33,28 @@ DELETE {
 } INSERT {
     GRAPH ?tile {
         ?tile a arena:Tile ;
-            arena:marker [
-                arena:color arena:red ;
-                arena:value 1000
-            ], [
-                arena:color arena:blue ;
-                arena:value 1000
-            ], [
-                arena:color arena:yellow ;
-                arena:value 1000
-            ], [
-                arena:color arena:green ;
-                arena:value 1000
-            ] ;
+            arena:marker ?markerRed, ?markerGreen, ?markerYellow, ?markerBlue ;
             arena:occupiedBy arena:nil . 
+    }
+    GRAPH ?markerRed {
+        ?markerRed a arena:Marker ;
+            arena:color arena:red ;
+            arena:value 1000 .
+    }
+    GRAPH ?markerGreen {
+        ?markerGreen a arena:Marker ;
+            arena:color arena:green ;
+            arena:value 1000 .
+    }
+    GRAPH ?markerYellow {
+        ?markerYellow a arena:Marker ;
+            arena:color arena:yellow ;
+            arena:value 1000 .
+    }
+    GRAPH ?markerBlue {
+        ?markerBlue a arena:Marker ;
+            arena:color arena:blue ;
+            arena:value 1000 .
     }
 } WHERE {
     VALUES (?x) {
@@ -105,4 +113,8 @@ DELETE {
     }
 
     BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y))) AS ?tile)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y),"/markers/red")) AS ?markerRed)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y),"/markers/green")) AS ?markerGreen)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y),"/markers/blue")) AS ?markerBlue)
+    BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?y),"/markers/yellow")) AS ?markerYellow)
 };

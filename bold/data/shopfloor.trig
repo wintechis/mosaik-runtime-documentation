@@ -43,7 +43,7 @@
 
 </stations/green> {
     </stations/green> a arena:Workstation ;
-        arena:tile </shopfloor/0/0> ;
+        arena:tile </shopfloor/1/1> ;
         arena:locationX 1 ;
         arena:locationY 1 ;
         arena:inputPort [
@@ -66,7 +66,7 @@
 
 </stations/blue> {
     </stations/blue> a arena:Workstation ;
-        arena:tile </shopfloor/0/4> ;
+        arena:tile </shopfloor/1/5> ;
         arena:locationX 1 ;
         arena:locationY 5 ;
         arena:inputPort [
@@ -89,7 +89,7 @@
 
 </stations/red> {
     </stations/red> a arena:Workstation ;
-        arena:tile </shopfloor/4/4> ;
+        arena:tile </shopfloor/5/5> ;
         arena:locationX 5 ;
         arena:locationY 5 ;
         arena:inputPort [
@@ -112,7 +112,7 @@
 
 </stations/yellow> {
     </stations/yellow> a arena:Workstation ;
-        arena:tile </shopfloor/4/0> ;
+        arena:tile </shopfloor/5/1> ;
         arena:locationX 5 ;
         arena:locationY 1 ;
         arena:inputPort [
@@ -137,20 +137,17 @@
     </transporters> a ldp:BasicContainer ;
         ldp:contains </transporters/1>,
                      </transporters/2>,
-                     </transporters/3>,
-                     </transporters/4>,
-                     </transporters/5>,
-                     </transporters/6>,
-                     </transporters/7>,
-                     </transporters/8> .
+                     </transporters/3>.
+#                     </transporters/4>,
+#                     </transporters/5>,
+#                     </transporters/6>,
+#                     </transporters/7>,
+#                     </transporters/8> .
 }
 
 </transporters/1> {
     </transporters/1> a arena:Transporter ;
         arena:status arena:idle ;
-        arena:locationX 0 ;
-        arena:locationY 0 ;
-        arena:tile </shopfloor/0/0> ;
         arena:speed 1 ;
         arena:products arena:nil ;
         arena:capacity 1 ;

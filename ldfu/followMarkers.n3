@@ -12,13 +12,17 @@
 <#a> <#b> <#c> .
 
 # Dummy marker
-<#dummyMarkerRed> arena:color arena:red ;
+<#dummyMarkerRed> a arena:Marker ;
+    arena:color arena:red ;
     arena:internalValue "1002"^^xsd:integer .
-<#dummyMarkerGreen> arena:color arena:green ;
+<#dummyMarkerGreen> a arena:Marker ;
+    arena:color arena:green ;
     arena:internalValue "1002"^^xsd:integer .
-<#dummyMarkerYellow> arena:color arena:yellow ;
+<#dummyMarkerYellow> a arena:Marker ;
+    arena:color arena:yellow ;
     arena:internalValue "1002"^^xsd:integer .
-<#dummyMarkerBlue> arena:color arena:blue ;
+<#dummyMarkerBlue> a arena:Marker ;
+    arena:color arena:blue ;
     arena:internalValue "1002"^^xsd:integer .
 
 {
@@ -128,6 +132,15 @@
 } => {
   [] http:mthd httpm:GET ;
      http:requestURI ?product .
+} .
+
+# If a tile has a marker, get that marker
+{
+  ?tile a arena:Tile ;
+    arena:marker ?marker .
+} => {
+  [] http:mthd httpm:GET ;
+     http:requestURI ?marker .
 } .
 
 # Creating dummy tile with high stigmergy value for tiles that do not exist
@@ -890,43 +903,17 @@
     arena:color ?color .
 
   ?tile a arena:Tile ;
-    arena:marker ?marker, ?marker1, ?marker2, ?marker3 .
+    arena:marker ?marker .
 
-  ?marker arena:color ?color .
-
-  ?marker1 arena:color ?color1 ;
-    arena:internalValue ?value1 .
-
-  ?marker2 arena:color ?color2 ;
-    arena:internalValue ?value2 .
-
-  ?marker3 arena:color ?color3 ;
-    arena:internalValue ?value3 .
-
-  ?color log:notEqualTo ?color1 .
-  ?color log:notEqualTo ?color2 .
-  ?color log:notEqualTo ?color3 .
-  ?color1 log:notEqualTo ?color2 .
-  ?color1 log:notEqualTo ?color3 .
-  ?color2 log:notEqualTo ?color3 .
+  ?marker a arena:Marker ;
+    arena:color ?color .
 } => {
   [] http:mthd httpm:PUT ;
-     http:requestURI ?tile ;
+     http:requestURI ?marker ;
      http:body {
-       ?tile a arena:Tile ;
-           arena:marker _:bn, _:b1, _:b2, _:b3 .
-
-       _:bn arena:color ?color ;
-            arena:internalValue "0"^^xsd:integer .
-
-       _:b1 arena:color ?color1 ;
-            arena:internalValue ?value1 .
-
-       _:b2 arena:color ?color2 ;
-            arena:internalValue ?value2 .
-
-       _:b3 arena:color ?color3 ;
-            arena:internalValue ?value3 .
+       ?marker a arena:Marker ;
+            arena:color ?color ;
+            arena:value "0"^^xsd:integer .
      } .
 } .
 
@@ -939,32 +926,17 @@
   ?ourTile log:notEqualTo ?tile .
 
   ?ourTile a arena:Tile ;
-    arena:marker ?ourMarker, ?marker1, ?marker2, ?marker3 .
+    arena:marker ?ourMarker ;
+    arena:occupiedBy ?occupied .
 
   ?ourMarker arena:color ?color ;
-    arena:internalValue ?ourValue .
+    arena:value ?ourValue .
 
   ?tile a arena:Tile ;
     arena:marker ?marker .
 
   ?marker arena:color ?color ;
-    arena:internalValue ?value .
-
-  ?marker1 arena:color ?color1 ;
-    arena:internalValue ?value1 .
-
-  ?marker2 arena:color ?color2 ;
-    arena:internalValue ?value2 .
-
-  ?marker3 arena:color ?color3 ;
-    arena:internalValue ?value3 .
-
-  ?color log:notEqualTo ?color1 .
-  ?color log:notEqualTo ?color2 .
-  ?color log:notEqualTo ?color3 .
-  ?color1 log:notEqualTo ?color2 .
-  ?color1 log:notEqualTo ?color3 .
-  ?color2 log:notEqualTo ?color3 .
+    arena:value ?value .
 
   (?value "1"^^xsd:integer) math:sum ?valuePlusOne .
 
@@ -973,21 +945,10 @@
   ?valuePlusOne math:lessThan ?ourValue .
 } => {
   [] http:mthd httpm:PUT ;
-     http:requestURI ?ourTile ;
+     http:requestURI ?ourMarker ;
      http:body {
-       ?ourTile a arena:Tile ;
-           arena:marker _:bour, _:b1, _:b2, _:b3 .
-
-       _:bour arena:color ?color ;
-            arena:internalValue ?valuePlusOneTyped .
-
-       _:b1 arena:color ?color1 ;
-            arena:internalValue ?value1 .
-
-       _:b2 arena:color ?color2 ;
-            arena:internalValue ?value2 .
-
-       _:b3 arena:color ?color3 ;
-            arena:internalValue ?value3 .
+       ?ourMarker a arena:Marker ;
+           arena:color ?color ;
+           arena:value ?valuePlusOneTyped .
      } .
 } .

@@ -1,0 +1,739 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://ti.rw.fau.de/sim#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix rdf4j: <http://rdf4j.org/schema/rdf4j#> .
+
+<file:/home/daniel/Git/mosaik-runtime-documentation/ldfu/followMarkers.n3>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#TransporterTask> ;
+    rdf:value <http://127.0.1.1:8080/shopfloor/0/0>, <http://127.0.1.1:8080/shopfloor/0/1>, <http://127.0.1.1:8080/shopfloor/0/2>, <http://127.0.1.1:8080/shopfloor/0/3>, <http://127.0.1.1:8080/shopfloor/0/4>, <http://127.0.1.1:8080/shopfloor/1/0>, <http://127.0.1.1:8080/shopfloor/1/1>, <http://127.0.1.1:8080/shopfloor/1/2>, <http://127.0.1.1:8080/shopfloor/1/3>, <http://127.0.1.1:8080/shopfloor/1/4>, <http://127.0.1.1:8080/shopfloor/2/1>, <http://127.0.1.1:8080/shopfloor/2/2>, <http://127.0.1.1:8080/shopfloor/2/3>, <http://127.0.1.1:8080/shopfloor/2/4>, <http://127.0.1.1:8080/shopfloor/3/3>, <http://127.0.1.1:8080/shopfloor/3/4>, <http://127.0.1.1:8080/shopfloor/4/2>, <http://127.0.1.1:8080/shopfloor/4/3>, <http://127.0.1.1:8080/shopfloor/4/4>, <https://solid.ti.rw.fau.de/public/ns/arena#nil> .
+
+<http://127.0.1.1:8080/>
+    a <http://www.w3.org/ns/ldp#BasicContainer> ;
+    <http://www.w3.org/ns/ldp#contains> <http://127.0.1.1:8080/shopfloor>, <http://127.0.1.1:8080/stations>, <http://127.0.1.1:8080/transporters> .
+
+<http://127.0.1.1:8080/products/1626fc0b-0a17-4a47-b2b9-ca99e3023048>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> .
+
+<http://127.0.1.1:8080/products/331b19bb-2ce3-4678-a201-a7ef2027ac8a>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/4b3c18f8-5b42-4750-a2f7-01d18460d806>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> .
+
+<http://127.0.1.1:8080/products/4bca0aff-8205-49a7-aad5-cbf95e5c88f5>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/4cfe59a8-19ab-4e8c-b417-4b5fce3fde17>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> .
+
+<http://127.0.1.1:8080/products/52585154-53a6-4ef0-b845-75f9cd395b1e>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/53b067b1-725e-4340-9b5e-e8d2964f75e6>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> .
+
+<http://127.0.1.1:8080/products/7333019b-7bc5-447d-b5fc-50d772f4194b>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/74c0d91a-5579-4669-aa16-c8869e81abd2>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/b81067eb-307e-4e5f-ade0-83fb29fdfde4>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/products/d0b21868-2d7d-4bcf-9580-57803db25a6e>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> .
+
+<http://127.0.1.1:8080/products/e6a7a45b-7d6f-4d28-afdd-2926125f57fa>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> .
+
+<http://127.0.1.1:8080/products/eaf34b4e-b3d5-4736-9d7e-f42b1726c080>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Product> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> .
+
+<http://127.0.1.1:8080/productsDelivered>
+    rdf:value 2 .
+
+<http://127.0.1.1:8080/shopfloor>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Shopfloor> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#sizeX> 5 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#sizeY> 5 .
+
+<http://127.0.1.1:8080/shopfloor/0/0>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 0
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/0/1>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/0/2>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/0/3>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/0/4>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 0
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/1/0>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/1/1>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/1/2>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/1/3>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/1/4>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/2/0>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/2/1>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/2/2>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/2/3>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/2/4>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "2"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/3/0>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Tile> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/3/1>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Tile> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/3/2>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Tile> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/3/3>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/3/4>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "3"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/4/0>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Tile> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/4/1>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Tile> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/4/2>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/4/3>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "5"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "1"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ] .
+
+<http://127.0.1.1:8080/shopfloor/4/4>
+    <https://solid.ti.rw.fau.de/public/ns/arena#marker> [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "4"
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 1000
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> 0
+    ], [
+        <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#value> "5"
+    ] .
+
+<http://127.0.1.1:8080/stations>
+    a <http://www.w3.org/ns/ldp#BasicContainer> ;
+    <http://www.w3.org/ns/ldp#contains> <http://127.0.1.1:8080/stations/blue>, <http://127.0.1.1:8080/stations/green>, <http://127.0.1.1:8080/stations/red>, <http://127.0.1.1:8080/stations/yellow> .
+
+<http://127.0.1.1:8080/stations/blue>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Workstation> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#blue> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#eventContainer> <http://127.0.1.1:8080/stations/blue/events> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#inputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#outputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/331b19bb-2ce3-4678-a201-a7ef2027ac8a>
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/0/4> .
+
+<http://127.0.1.1:8080/stations/blue/events>
+    a <http://www.w3.org/ns/ldp#DirectContainer> .
+
+<http://127.0.1.1:8080/stations/green>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Workstation> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#green> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#eventContainer> <http://127.0.1.1:8080/stations/green/events> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#inputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#outputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/4b3c18f8-5b42-4750-a2f7-01d18460d806>
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/0/0> .
+
+<http://127.0.1.1:8080/stations/green/events>
+    a <http://www.w3.org/ns/ldp#DirectContainer> .
+
+<http://127.0.1.1:8080/stations/red>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Workstation> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#red> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#eventContainer> <http://127.0.1.1:8080/stations/red/events> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#inputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#outputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/4bca0aff-8205-49a7-aad5-cbf95e5c88f5>
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/4/4> .
+
+<http://127.0.1.1:8080/stations/red/events>
+    a <http://www.w3.org/ns/ldp#DirectContainer> .
+
+<http://127.0.1.1:8080/stations/yellow>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Workstation> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#color> <https://solid.ti.rw.fau.de/public/ns/arena#yellow> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#eventContainer> <http://127.0.1.1:8080/stations/yellow/events> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#inputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#outputPort> [
+        a <https://solid.ti.rw.fau.de/public/ns/arena#Port> ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 4 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 0 ;
+        <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/52585154-53a6-4ef0-b845-75f9cd395b1e>
+    ] ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/4/0> .
+
+<http://127.0.1.1:8080/stations/yellow/events>
+    a <http://www.w3.org/ns/ldp#DirectContainer> .
+
+<http://127.0.1.1:8080/transporters>
+    a <http://www.w3.org/ns/ldp#BasicContainer> ;
+    <http://www.w3.org/ns/ldp#contains> <http://127.0.1.1:8080/transporters/1>, <http://127.0.1.1:8080/transporters/2>, <http://127.0.1.1:8080/transporters/3>, <http://127.0.1.1:8080/transporters/4>, <http://127.0.1.1:8080/transporters/5>, <http://127.0.1.1:8080/transporters/6>, <http://127.0.1.1:8080/transporters/7>, <http://127.0.1.1:8080/transporters/8> .
+
+<http://127.0.1.1:8080/transporters/1>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 3 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/d0b21868-2d7d-4bcf-9580-57803db25a6e> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/1/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/3/3>, <http://127.0.1.1:8080/shopfloor/3/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/4/3>, <http://127.0.1.1:8080/shopfloor/4/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/3/2>, <http://127.0.1.1:8080/shopfloor/3/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/4/2>, <http://127.0.1.1:8080/shopfloor/4/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/2/2>, <http://127.0.1.1:8080/shopfloor/2/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/3/4>, <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/4/4>, <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/2/4>, <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/2/3> .
+
+<http://127.0.1.1:8080/transporters/1/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/2>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/1626fc0b-0a17-4a47-b2b9-ca99e3023048> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/2/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/1/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/2/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/1/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/2/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/0/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/1/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/2/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/0/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/0/1> .
+
+<http://127.0.1.1:8080/transporters/2/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/3>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 3 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/4cfe59a8-19ab-4e8c-b417-4b5fce3fde17> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/3/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/3/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/4/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/3/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/4/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/2/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/2/3> .
+
+<http://127.0.1.1:8080/transporters/3/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/4>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 2 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/74c0d91a-5579-4669-aa16-c8869e81abd2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/4/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/1/2>, <http://127.0.1.1:8080/shopfloor/1/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/2/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/1/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/2/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/0/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/1/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/2/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/0/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/0/1> .
+
+<http://127.0.1.1:8080/transporters/4/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/5>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 4 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/b81067eb-307e-4e5f-ade0-83fb29fdfde4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/5/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/4/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/4/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/3/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/3/4> .
+
+<http://127.0.1.1:8080/transporters/5/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/6>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationX> 3 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 3 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/7333019b-7bc5-447d-b5fc-50d772f4194b> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#idle> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/6/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/3/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/4/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/3/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/4/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/2/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/3/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/4/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/2/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/2/3> .
+
+<http://127.0.1.1:8080/transporters/6/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/7>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <http://127.0.1.1:8080/products/e6a7a45b-7d6f-4d28-afdd-2926125f57fa> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#busy> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/7/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/1/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/2/1> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/1/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/2/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/0/0> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/1/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/2/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/0/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/0/1> .
+
+<http://127.0.1.1:8080/transporters/7/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> .
+
+<http://127.0.1.1:8080/transporters/8>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Transporter> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#capacity> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#locationY> 3 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#products> <https://solid.ti.rw.fau.de/public/ns/arena#nil> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#speed> 1 ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#status> <https://solid.ti.rw.fau.de/public/ns/arena#busy> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tasks> <http://127.0.1.1:8080/transporters/8/tasks> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tile> <http://127.0.1.1:8080/shopfloor/2/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileE> <http://127.0.1.1:8080/shopfloor/3/3> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileN> <http://127.0.1.1:8080/shopfloor/2/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNE> <http://127.0.1.1:8080/shopfloor/3/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileNW> <http://127.0.1.1:8080/shopfloor/1/2> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileS> <http://127.0.1.1:8080/shopfloor/2/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSE> <http://127.0.1.1:8080/shopfloor/3/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileSW> <http://127.0.1.1:8080/shopfloor/1/4> ;
+    <https://solid.ti.rw.fau.de/public/ns/arena#tileW> <http://127.0.1.1:8080/shopfloor/1/2> .
+
+<http://127.0.1.1:8080/transporters/8/tasks>
+    a <http://www.w3.org/ns/ldp#BasicContainer> ;
+    <http://www.w3.org/ns/ldp#contains> <http://127.0.1.1:8080/transporters/8/tasks/c19755aa-6936-485e-8083-bbc9af6f7f36> .
+
+<https://solid.ti.rw.fau.de/public/ns/arena#blue>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Color> .
+
+<https://solid.ti.rw.fau.de/public/ns/arena#green>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Color> .
+
+<https://solid.ti.rw.fau.de/public/ns/arena#red>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Color> .
+
+<https://solid.ti.rw.fau.de/public/ns/arena#yellow>
+    a <https://solid.ti.rw.fau.de/public/ns/arena#Color> .
+

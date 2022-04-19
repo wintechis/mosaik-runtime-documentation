@@ -30,6 +30,9 @@ DELETE {
         ?port arena:products ?p .
     }
 
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
@@ -59,6 +62,9 @@ DELETE {
     FILTER NOT EXISTS {    
         ?port arena:products ?p .
     }
+
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
 
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
@@ -90,6 +96,9 @@ DELETE {
         ?port arena:products ?p .
     }
 
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
@@ -119,6 +128,9 @@ DELETE {
     FILTER NOT EXISTS {    
         ?port arena:products ?p .
     }
+
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
 
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };

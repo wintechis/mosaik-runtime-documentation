@@ -471,7 +471,7 @@ INSERT {
     {
         ?transporter a arena:Transporter ;
             arena:locationX ?x ;
-            arena:locationX ?y .
+            arena:locationY ?y .
 
         BIND(?x - 1 AS ?xMinus1)
 
