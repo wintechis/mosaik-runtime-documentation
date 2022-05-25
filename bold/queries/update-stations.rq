@@ -18,6 +18,7 @@ DELETE {
         arena:outputPort ?port ;
         arena:color arena:blue .
 
+#draw one color for the product that is not the station's color
     {
         SELECT (SAMPLE(?c) AS ?color)
         WHERE {
@@ -25,14 +26,16 @@ DELETE {
             FILTER(?c != arena:blue)
         }
     }
-
+#consider only stations whose port has no product 
     FILTER NOT EXISTS {    
         ?port arena:products ?p .
     }
 
+#random possibility to assign a product
     BIND (sim:rand(?station) AS ?rand)
     FILTER(?rand < 0.1)
 
+#assign the product to the generated URI and bind as product which is then assigned to the station's graph above
     BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
 };
 
@@ -154,8 +157,10 @@ DELETE {
 
     ?port arena:products ?product .
 
+#if the product in the input port references the same color as the color from the station
     ?product arena:color ?color .
 
+#get the respective counter (defined in init.trig) and increase it by one
     </productsDelivered> arena:hasCounter ?c .
 
     ?c arena:color ?color ;

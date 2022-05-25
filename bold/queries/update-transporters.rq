@@ -46,6 +46,7 @@ DELETE {
 };
 
 # If a transporter has a task that is currently not executable, delete it
+# increase the counter for discarded tasks by one
 DELETE {
     GRAPH ?taskContainer {
         ?taskContainer ldp:contains ?task .
@@ -81,6 +82,7 @@ DELETE {
 };
 
 # If a transporter has a task with a goal tile that is currently blocked, delete it
+# increase the counter for blocked tasks by one
 DELETE {
     GRAPH ?taskContainer {
         ?taskContainer ldp:contains ?task .
@@ -157,7 +159,7 @@ DELETE {
     }
 };
 
-# Transporter moves
+# Transporter moves to a given, free, adjacent goal tile
 DELETE {
     GRAPH ?transporter {
         ?transporter arena:locationX ?x ;
@@ -218,6 +220,7 @@ DELETE {
         arena:tileW ?t7 ;
         arena:tileNW ?t8 .
  
+#as multiple tasks could have been received, the transporter draws ONE random task from the container and tries to execute it
     {   
         SELECT ?taskContainer ?o ?transporter ?goalTile
         WHERE {
@@ -239,6 +242,7 @@ DELETE {
         }
     }
 
+#check if goal tile is not already occupied by other transporter
     FILTER NOT EXISTS {
         ?otherTransporter a arena:Transporter ;
             arena:tile ?goalTile .
@@ -248,6 +252,7 @@ DELETE {
         arena:sizeX ?sizeX ;
         arena:sizeY ?sizeY .
 
+#check if goal tile is inside boundaries
     FILTER(?newX < ?sizeX && ?newX >= 0)
 
     FILTER(?newY < ?sizeY && ?newY >= 0)
@@ -258,7 +263,8 @@ DELETE {
     BIND(?succMov + 1 AS ?succMovPlusOne)
 };
 
-# Set new neighboring tiles for transporter
+################### Set all new neighboring tiles for transporter
+# Calculate northern tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileN ?tile .
@@ -285,6 +291,7 @@ INSERT {
     }
 };
 
+# Calculate north-eastern tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileNE ?tile .
@@ -323,6 +330,7 @@ INSERT {
     }
 };
 
+# Calculate eastern tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileE ?tile .
@@ -356,6 +364,7 @@ INSERT {
     }
 };
 
+# Calculate south-eastern tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileSE ?tile .
@@ -393,6 +402,7 @@ INSERT {
     }
 };
 
+# Calculate southern tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileS ?tile .
@@ -427,6 +437,7 @@ INSERT {
     }
 };
 
+# Calculate south-western tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileSW ?tile .
@@ -463,6 +474,7 @@ INSERT {
     }
 };
 
+# Calculate western tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileW ?tile .
@@ -490,6 +502,7 @@ INSERT {
     }
 };
 
+# Calculate north-western tile
 INSERT {
     GRAPH ?transporter {
         ?transporter arena:tileNW ?tile .
@@ -519,6 +532,7 @@ INSERT {
     }
 };
 
+###########################################################################
 # Tranporter picks up product from output port
 DELETE {
     GRAPH ?station {
@@ -532,6 +546,8 @@ DELETE {
         ?transporter arena:products ?product .
     }
 } WHERE {
+#if transporter is on same tile as workstation / its output and workstation's output has a product to pickup
+#--> transporter takes product and resets stations' port 
     {
         SELECT ?transporter ?product ?port ?station
         WHERE {
@@ -565,6 +581,8 @@ DELETE {
         ?transporter arena:products arena:nil .
     }
 } WHERE {
+#if transporter is on same tile as workstation / its input and workstation has same color as product of transporter
+#--> transporter puts product in input port and sets own reference to arena:nil
     ?transporter a arena:Transporter ;
         arena:locationX ?x ;	
         arena:locationY ?y ;

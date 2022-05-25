@@ -35,6 +35,7 @@
   ?marker arena:internalValue ?value .
 } .
 
+#Tiles which are occupied by an transporter get the stigmergy value of 1001 (to be "less desirable" than tiles without stigmergy)
 {
   ?tile a arena:Tile ;
     arena:marker ?marker ;
@@ -69,6 +70,7 @@
      http:requestURI ?b .
 } .
 
+# Get all neighboring fields of a transporter
 {
   ?a arena:tileN ?b .
 } => {
@@ -929,9 +931,11 @@
     arena:marker ?ourMarker ;
     arena:occupiedBy ?occupied .
 
+#take current marker of field of transporter
   ?ourMarker arena:color ?color ;
     arena:value ?ourValue .
 
+#take another matching tile that is adjacent to our current tile and get its marker and value
   ?tile a arena:Tile ;
     arena:marker ?marker .
 
@@ -942,6 +946,7 @@
 
   (?valuePlusOne xsd:integer) log:dtlit ?valuePlusOneTyped .
 
+#make sure that the new value (increased by one, in comparison of the neighboring smaller value) is smaller than the value of the marker value that was here before (new values should always be decreased and never increased)
   ?valuePlusOne math:lessThan ?ourValue .
 } => {
   [] http:mthd httpm:PUT ;

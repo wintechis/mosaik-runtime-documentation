@@ -3,6 +3,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix ldp: <http://www.w3.org/ns/ldp#> .
 
+#define the root of our scenario, where stations, transporters and the shopfloor lie
 </> {
     </> a ldp:BasicContainer ;
         ldp:contains </stations>,
@@ -10,6 +11,8 @@
                      </shopfloor> .
 }
 
+#endpoint for checking how many products of every kind (red/blue/gree/yellow) were delivered
+#this counter is update on delivery in bold/queries/update-stations.rq
 </productsDelivered> {
     </productsDelivered> arena:hasCounter [
         arena:color arena:red ;
@@ -26,6 +29,7 @@
     ] .
 }
 
+#the colors for stations and products
 </colors> {
     arena:red a arena:Color .
     arena:blue a arena:Color .
@@ -33,6 +37,7 @@
     arena:green a arena:Color .
 }
 
+#the different kind of stations together in an ldp container
 </stations> {
     </stations> a ldp:BasicContainer ;
         ldp:contains </stations/green>,
@@ -41,6 +46,8 @@
                      </stations/yellow> .
 }
 
+#the initalization for the GREEN station with position and its input / output ports for interaction with the transporter
+#we define the ports to be at the same position as the station itself, such that the complete workstation is localted on exactly one tile 
 </stations/green> {
     </stations/green> a arena:Workstation ;
         arena:tile </shopfloor/1/1> ;
@@ -64,6 +71,8 @@
     </stations/green/events> a ldp:DirectContainer .
 }
 
+#the initalization for the BLUE station with position and its input / output ports for interaction with the transporter
+#we define the ports to be at the same position as the station itself, such that the complete workstation is localted on exactly one tile 
 </stations/blue> {
     </stations/blue> a arena:Workstation ;
         arena:tile </shopfloor/1/5> ;
@@ -87,6 +96,8 @@
     </stations/blue/events> a ldp:DirectContainer .
 }
 
+#the initalization for the RED station with position and its input / output ports for interaction with the transporter
+#we define the ports to be at the same position as the station itself, such that the complete workstation is localted on exactly one tile 
 </stations/red> {
     </stations/red> a arena:Workstation ;
         arena:tile </shopfloor/5/5> ;
@@ -110,6 +121,8 @@
     </stations/red/events> a ldp:DirectContainer .
 }
 
+#the initalization for the YELLOW station with position and its input / output ports for interaction with the transporter
+#we define the ports to be at the same position as the station itself, such that the complete workstation is localted on exactly one tile 
 </stations/yellow> {
     </stations/yellow> a arena:Workstation ;
         arena:tile </shopfloor/5/1> ;
@@ -133,6 +146,7 @@
     </stations/yellow/events> a ldp:DirectContainer .
 }
 
+#the URIs for all used transporters
 </transporters> {
     </transporters> a ldp:BasicContainer ;
         ldp:contains </transporters/1>,
@@ -145,6 +159,8 @@
 #                     </transporters/8> .
 }
 
+#initial information for a transporter (all others in the same manner)
+#initial position is calculated by /bold/queries/init.rq
 </transporters/1> {
     </transporters/1> a arena:Transporter ;
         arena:status arena:idle ;
@@ -154,6 +170,8 @@
         arena:tasks </transporters/1/tasks> .
 }
 
+#the transporter's task container gathers all movement tasks received from the agent. The transporter will try to fulfill all tasks,
+#but will do a sanity check and delete tasks that cannot be done.
 </transporters/1/tasks> {
     </transporters/1/tasks> a ldp:BasicContainer .
 }
@@ -249,6 +267,7 @@
 #    </transporters/8/tasks> a ldp:BasicContainer .
 #}
 
+#the definition of the shopfloor size, used for calculation of the area and all tiles
 </shopfloor> {
     </shopfloor> a arena:Shopfloor ;
         arena:sizeX 7 ;
