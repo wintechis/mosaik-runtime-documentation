@@ -32,3 +32,7 @@ These transporters shall sort colored items, produced by distributed stations, t
 4. To start the agent, run e.g. `ldfu -p followMarkers.n3 -n 2000` or `ldfu-loop.sh`
 5. Visualization is available after running the React app, see Readme and respective steps in /gui/
 6. To end the simulation, run `run.sh` again 
+
+## Acknowledgments
+
+This work was partially funded by the German Federal Ministry of Education and Research through the MOSAIK project (grant no. 01IS18070A).
