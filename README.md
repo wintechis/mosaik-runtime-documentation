@@ -35,7 +35,7 @@ These transporters shall sort colored items, produced by distributed stations, t
 5. Visualization is available after running the React app, see Readme and respective steps in /gui/
 6. To end the simulation, run `run.sh` again 
 
-##Further Information
+## Further Information
 
 * [Performance comparison of Simple Reflex Agents Using Stigmergy with Model-Based Agents in Self-Organizing Transportation](https://github.com/wintechis/Model_Based_VS_SRA_Stigmergy)
 
