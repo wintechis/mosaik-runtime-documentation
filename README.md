@@ -37,6 +37,7 @@ These transporters shall sort colored items, produced by distributed stations, t
 
 ## Further Information
 
+* [Demo on Youtube](https://youtu.be/3XJqU43tN0k)
 * [Performance comparison of Simple Reflex Agents Using Stigmergy with Model-Based Agents in Self-Organizing Transportation](https://github.com/wintechis/Model_Based_VS_SRA_Stigmergy)
 
 ## Acknowledgments
