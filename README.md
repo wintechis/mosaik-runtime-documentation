@@ -7,7 +7,9 @@ These transporters shall sort colored items, produced by distributed stations, t
 
 ## Content
 
-* /bold/ contains all files for the [BOLD simulator](https://github.com/bold-benchmark/bold-server), e.g.:
+* [documentation.pdf](documentation.pdf) contains the overall documentation for this project.
+
+* [bold/](bold/) contains all files for the [BOLD simulator](https://github.com/bold-benchmark/bold-server), e.g.:
   * Initial data and endpoints of BOLD (bold/data/shopfloor.trig)
   * File sim.ttl which has to be PUT to BOLD's /sim endpoint to start the simulation (bold/data/sim.ttl)
   * Initiale SPARQL queries that are run after starting (bold/queries/init.rq)
@@ -16,12 +18,12 @@ These transporters shall sort colored items, produced by distributed stations, t
   * Script to send an HTTP PUT of sim.ttl to BOLD to start the simulation (bold/run.sh)
   * Properties file to confugre BOLD (bold/simple-transport.properties)
 
-* /ldfu/ contains files for the controlling [ldfu agent](https://linked-data-fu.github.io/):
+* [ldfu/](ldfu/) contains files for the controlling [ldfu agent](https://linked-data-fu.github.io/):
   * An agent that uses stigmergy to route transporters to stations (ldfu/followMarkers.n3)
   * An agent that uses only random movement for transporters (ldfu/moveRandom.n3)
   * A script to execute ldfu in a loop, pre-set with a pause of 2 seconds (ldfu/ldfu-loop.sh)
 
-* /gui/ contains files for a React app to visualize the simulation in your browser
+* [gui/](gui/) contains files for a React app to visualize the simulation in your browser
 
 ## Usage
 
@@ -32,6 +34,10 @@ These transporters shall sort colored items, produced by distributed stations, t
 4. To start the agent, run e.g. `ldfu -p followMarkers.n3 -n 2000` or `ldfu-loop.sh`
 5. Visualization is available after running the React app, see Readme and respective steps in /gui/
 6. To end the simulation, run `run.sh` again 
+
+##Further Information
+
+* [Performance comparison of Simple Reflex Agents Using Stigmergy with Model-Based Agents in Self-Organizing Transportation](https://github.com/wintechis/Model_Based_VS_SRA_Stigmergy)
 
 ## Acknowledgments
 
