@@ -1,0 +1,11 @@
+-- BOLD --
+1. Make products appear at stations
+2. (Make stations accept products)
+3. (Make transporters calculcate their adjacent tiles)
+4. Make transporters move
+5. (Make transporters pick up product)
+6. (Make transporters deliver products)
+-- ldfu --
+1. Get all neighboring fields of a transporter
+2. Move to random tile if no product
+3. (Move to adjacent tile with lowest stigmergy value)

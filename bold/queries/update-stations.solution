@@ -1,0 +1,170 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
+PREFIX sim: <http://ti.rw.fau.de/sim#>
+
+# For blue stations if no product create a product that is not blue
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:blue .
+
+#draw one color for the product that is not the station's color
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:blue)
+        }
+    }
+#consider only stations whose port has no product 
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+#random possibility to assign a product
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
+#assign the product to the generated URI and bind as product which is then assigned to the station's graph above
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+# For green stations if no product create a product that is not green
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:green .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:green)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+# For yellow stations if no product create a product that is not yellow
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:yellow .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:yellow)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+# For red stations if no product create a product that is not red
+DELETE {
+} INSERT {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH ?product {
+        ?product a arena:Product ;
+            arena:color ?color .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:outputPort ?port ;
+        arena:color arena:red .
+
+    {
+        SELECT (SAMPLE(?c) AS ?color)
+        WHERE {
+            ?c a arena:Color .
+            FILTER(?c != arena:red)
+        }
+    }
+
+    FILTER NOT EXISTS {    
+        ?port arena:products ?p .
+    }
+
+    BIND (sim:rand(?station) AS ?rand)
+    FILTER(?rand < 0.1)
+
+    BIND(URI(CONCAT("/products/", STRUUID())) AS ?product)
+};
+
+# If station has a fitting product in input port, delete product and increase counter
+DELETE {
+    GRAPH ?station {
+        ?port arena:products ?product .
+    }
+    GRAPH </productsDelivered> {
+        ?c rdf:value ?counter .
+    }
+} INSERT {
+    GRAPH </productsDelivered> {
+        ?c rdf:value ?newCounter .
+    }
+} WHERE {
+    ?station a arena:Workstation ;
+        arena:inputPort ?port ;
+        arena:color ?color .
+
+    ?port arena:products ?product .
+
+#if the product in the input port references the same color as the color from the station
+    ?product arena:color ?color .
+
+#get the respective counter (defined in init.trig) and increase it by one
+    </productsDelivered> arena:hasCounter ?c .
+
+    ?c arena:color ?color ;
+         rdf:value ?counter .
+    
+    BIND(?counter + 1 AS ?newCounter)
+};

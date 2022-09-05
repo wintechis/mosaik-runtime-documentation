@@ -4,596 +4,66 @@ PREFIX ldp: <http://www.w3.org/ns/ldp#>
 PREFIX arena: <https://solid.ti.rw.fau.de/public/ns/arena#>
 PREFIX sim: <http://ti.rw.fau.de/sim#>
 
-# Set transporter to busy when task available and idle
-DELETE {
-    GRAPH ?transporter {
-        ?transporter arena:status arena:idle .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:status arena:busy .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:status arena:idle ;
-        arena:tasks ?taskContainer .
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-};
-
-# Set transporter to idle when no task available and busy
-DELETE {
-    GRAPH ?transporter {
-        ?transporter arena:status arena:busy .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:status arena:idle .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:status arena:busy ;
-        arena:tasks ?taskContainer .
-
-    FILTER NOT EXISTS {
-        ?taskContainer ldp:contains ?task .
-    }
-};
-
-# If a transporter has a task that is currently not executable, delete it
-# increase the counter for discarded tasks by one
-DELETE {
-    GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?task .
-    }
-    GRAPH ?task {
-        ?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-    GRAPH ?transporter {
-        ?transporter arena:discardedTasksInvalid ?discTask .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:discardedTasksInvalid ?discTaskPlusOne .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:discardedTasksInvalid ?discTask ;
-        arena:tasks ?taskContainer .
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-
-    FILTER NOT EXISTS {
-        ?transporter ?direction ?goalTile .
-    }
-
-    BIND(?discTask + 1 AS ?discTaskPlusOne)
-};
-
-# If a transporter has a task with a goal tile that is currently blocked, delete it
-# increase the counter for blocked tasks by one
-DELETE {
-    GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?task .
-}
-    GRAPH ?task {
-        ?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-    GRAPH ?transporter {
-        ?transporter arena:discardedTasksBlocked ?discTask .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:discardedTasksBlocked ?discTaskPlusOne .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:discardedTasksBlocked ?discTask ;
-        arena:tasks ?taskContainer .
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-
-    ?otherTransporter a arena:Transporter ;
-        arena:tile ?goalTile .
-
-    BIND(?discTask + 1 AS ?discTaskPlusOne)
-};
-
-# If a transporter has a task that goes out of bounds, delete it
-DELETE {
-    GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?task .
-    }
-    GRAPH ?task {
-        ?someTask a arena:TransporterTask ;
-            rdf:value ?goalTile .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:tasks ?taskContainer .
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value arena:nil .
-    }
-};
-
-# If transporter is on tile that tasks wants, delete task
-DELETE {
-    GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?task .
-    }
-    GRAPH ?task {
-        ?someTask a arena:TransporterTask ;
-            rdf:value ?tile .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:tasks ?taskContainer ;
-        arena:tile ?tile .
-
-    ?taskContainer ldp:contains ?task .
-
-    GRAPH ?task{
-    	?someTask a arena:TransporterTask ;
-            rdf:value ?tile .
-    }
-};
-
 # Transporter moves to a given, free, adjacent goal tile
-DELETE {
-    GRAPH ?transporter {
-        ?transporter arena:locationX ?x ;
-            arena:locationY ?y ;
-            arena:successfulMov ?succMov ;
-            arena:tile ?t ;
-            arena:tileN ?t1 ;
-            arena:tileNE ?t2 ;
-            arena:tileE ?t3 ;
-            arena:tileSE ?t4 ;
-            arena:tileS ?t5 ;
-            arena:tileSW ?t6 ;
-            arena:tileW ?t7 ;
-            arena:tileNW ?t8 .
-    }
-    GRAPH ?taskContainer {
-        ?taskContainer ldp:contains ?o .
-    }
-    GRAPH ?t {
-        ?t arena:occupiedBy ?transporter .
-    }
-    GRAPH ?goalTile {
-        ?goalTile arena:occupiedBy arena:nil .
-    }
-    GRAPH <http://127.0.1.1:8080/transporterPos> {
-        ?transporter arena:tile ?t .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:locationX ?newX ;
-            arena:successfulMov ?succMovPlusOne ;
-            arena:locationY ?newY ;
-            arena:tile ?goalTile .
-    }
-    GRAPH ?t {
-        ?t arena:occupiedBy arena:nil .
-    }
-    GRAPH ?goalTile {
-        ?goalTile arena:occupiedBy ?transporter .
-    }
-    GRAPH <http://127.0.1.1:8080/transporterPos> {
-        ?transporter arena:tile ?goalTile .
-    }
-} WHERE {
-    ?transporter a arena:Transporter ;
-        arena:status arena:busy ;
-        arena:successfulMov ?succMov ;
-        arena:locationX ?x ;
-        arena:locationY ?y ;
-        arena:tile ?t ;
-        ?direction ?goalTile ;
-        arena:tileN ?t1 ;
-        arena:tileNE ?t2 ;
-        arena:tileE ?t3 ;
-        arena:tileSE ?t4 ;
-        arena:tileS ?t5 ;
-        arena:tileSW ?t6 ;
-        arena:tileW ?t7 ;
-        arena:tileNW ?t8 .
- 
-#as multiple tasks could have been received, the transporter draws ONE random task from the container and tries to execute it
-    {   
-        SELECT ?taskContainer ?o ?transporter ?goalTile
-        WHERE {
-            ?taskContainer ldp:contains ?o .
-            {
-                SELECT ?transporter ?goalTile ?taskContainer
-                WHERE {
-                    ?transporter arena:tasks ?taskContainer .
-                    ?taskContainer ldp:contains ?task .
-
-                    GRAPH ?task{
-                    ?someTask a arena:TransporterTask ;
-                        rdf:value ?goalTile .
-                    }
-                }
-                ORDER BY RAND()
-                LIMIT 1
-            }
-        }
-    }
-
-#check if goal tile is not already occupied by other transporter
-    FILTER NOT EXISTS {
-        ?otherTransporter a arena:Transporter ;
-            arena:tile ?goalTile .
-    }
-
-    ?shopfloor a arena:Shopfloor ;
-        arena:sizeX ?sizeX ;
-        arena:sizeY ?sizeY .
-
-#check if goal tile is inside boundaries
-    FILTER(?newX < ?sizeX && ?newX >= 0)
-
-    FILTER(?newY < ?sizeY && ?newY >= 0)
-
-    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/(\\d+)/\\d+", "$1")) AS ?newX)
-    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/\\d+/(\\d+)", "$1")) AS ?newY)
-    
-    BIND(?succMov + 1 AS ?succMovPlusOne)
-};
-
-################### Set all new neighboring tiles for transporter
-# Calculate northern tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileN ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        BIND(?y - 1 AS ?yMinus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?yMinus1))) AS ?tile)
-        FILTER(?yMinus1 >= 0)
-    # When there is no tile set to nil
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationY ?y .
-
-        BIND(?y - 1 AS ?yMinus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?yMinus1 < 0)
-    }
-};
-
-# Calculate north-eastern tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileNE ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX .
-
-
-        BIND(?y - 1 AS ?yMinus1)
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?yMinus1))) AS ?tile)
-
-        FILTER(?yMinus1 >= 0 && ?xPlus1 < ?sizeX)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX ;
-            arena:sizeY ?sizeY .
-
-
-        BIND(?y - 1 AS ?yMinus1)
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?yMinus1 < 0 || ?xPlus1 >= ?sizeX)
-    }
-};
-
-# Calculate eastern tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileE ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX .
-
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?y))) AS ?tile)
-
-        FILTER(?xPlus1 < ?sizeX)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX .
-
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?xPlus1 >= ?sizeX)
-
-    }
-};
-
-# Calculate south-eastern tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileSE ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX ;
-            arena:sizeY ?sizeY .
-
-        BIND(?y + 1 AS ?yPlus1)
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xPlus1),"/",xsd:string(?yPlus1))) AS ?tile)
-
-        FILTER(?yPlus1 < ?sizeY && ?xPlus1 < ?sizeX)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX ;
-            arena:sizeY ?sizeY .
-
-        BIND(?y + 1 AS ?yPlus1)
-        BIND(?x + 1 AS ?xPlus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?yPlus1 >= ?sizeY || ?xPlus1 >= ?sizeX)
-    }
-};
-
-# Calculate southern tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileS ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeX ?sizeX ;
-            arena:sizeY ?sizeY .
-
-        BIND(?y + 1 AS ?yPlus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?x),"/",xsd:string(?yPlus1))) AS ?tile)
-
-        FILTER(?yPlus1 < ?sizeY)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeY ?sizeY .
-
-        BIND(?y + 1 AS ?yPlus1)
-
-        FILTER(?yPlus1 >= ?sizeY)
-
-        BIND(arena:nil AS ?tile)
-    }
-};
-
-# Calculate south-western tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileSW ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeY ?sizeY .
-
-        BIND(?y + 1 AS ?yPlus1)
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?yPlus1))) AS ?tile)
-
-        FILTER(?yPlus1 < ?sizeY && ?xMinus1 >= 0)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        ?shopfloor a arena:Shopfloor ;
-            arena:sizeY ?sizeY .
-
-
-        BIND(?y + 1 AS ?yPlus1)
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?yPlus1 >= ?sizeY || ?xMinus1 < 0)
-    }
-};
-
-# Calculate western tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileW ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?y))) AS ?tile)
-
-        FILTER(?xMinus1 >= 0)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x .
-
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?xMinus1 < 0)
-
-    }
-};
-
-# Calculate north-western tile
-INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:tileNW ?tile .
-    }
-} WHERE {
-    {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        BIND(?y - 1 AS ?yMinus1)
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(URI(CONCAT("/shopfloor/",xsd:string(?xMinus1),"/",xsd:string(?yMinus1))) AS ?tile)
-
-        FILTER(?yMinus1 >= 0 && ?xMinus1 >= 0)
-    } UNION {
-        ?transporter a arena:Transporter ;
-            arena:locationX ?x ;
-            arena:locationY ?y .
-
-        BIND(?y - 1 AS ?yMinus1)
-        BIND(?x - 1 AS ?xMinus1)
-
-        BIND(arena:nil AS ?tile)
-        FILTER(?yMinus1 < 0 || ?xMinus1 < 0)
-    }
-};
-
-###########################################################################
-# Tranporter picks up product from output port
-DELETE {
-    GRAPH ?station {
-        ?port arena:products ?product .
-    }
-    GRAPH ?transporter {
-        ?transporter arena:products arena:nil .
-    }
-} INSERT {
-    GRAPH ?transporter {
-        ?transporter arena:products ?product .
-    }
-} WHERE {
-#if transporter is on same tile as workstation / its output and workstation's output has a product to pickup
-#--> transporter takes product and resets stations' port 
-    {
-        SELECT ?transporter ?product ?port ?station
-        WHERE {
-            ?transporter a arena:Transporter ;
-                arena:locationX ?x ;	
-                arena:locationY ?y ;
-                arena:products arena:nil .
-
-            ?station a arena:Workstation ;
-                arena:outputPort ?port .
-        
-            ?port arena:locationX ?x ;	
-                arena:locationY ?y ;
-                arena:products ?product .
-        }
-        LIMIT 1
-    }
-
-};
-
-# Transporter puts products to input ports if it fits to station
-DELETE {
-    GRAPH ?transporter {
-        ?transporter arena:products ?product .
-    }
-} INSERT {
-    GRAPH ?station {
-        ?port arena:products ?product .
-    }
-    GRAPH ?transporter {
-        ?transporter arena:products arena:nil .
-    }
-} WHERE {
-#if transporter is on same tile as workstation / its input and workstation has same color as product of transporter
-#--> transporter puts product in input port and sets own reference to arena:nil
-    ?transporter a arena:Transporter ;
-        arena:locationX ?x ;	
-        arena:locationY ?y ;
-        arena:products ?product .
-
-    ?station a arena:Workstation ;
-        arena:color ?color ;
-        arena:inputPort ?port .
-
-    ?port arena:locationX ?x ;	
-        arena:locationY ?y .
-
-    ?product arena:color ?color .
-};
+#DELETE {
+#    GRAPH ?transporter {
+#        ?transporter arena:locationX ?x ;
+#            arena:locationY ?y ;
+#            arena:tile ?t .
+#    }
+#    GRAPH ?taskContainer {
+#        ?taskContainer ldp:contains ?o .
+#    }
+#} INSERT {
+#    GRAPH ?transporter {
+#        ?transporter arena:locationX ?newX ;
+#            arena:locationY ?newY ;
+#            arena:tile ?goalTile .
+#    }
+#} WHERE {
+#    ?transporter a arena:Transporter ;
+#        arena:status arena:busy ;
+#        arena:locationX ?x ;
+#        arena:locationY ?y ;
+#        arena:tile ?t ;
+#        ?direction ?goalTile .
+# 
+#    # As multiple tasks could have been received, the transporter draws ONE random task from the container and tries to execute it
+#    {   
+#        SELECT ?taskContainer ?o ?transporter ?goalTile
+#        WHERE {
+#            ?taskContainer ldp:contains ?o .
+#            {
+#                SELECT ?transporter ?goalTile ?taskContainer
+#                WHERE {
+#                    ?transporter arena:tasks ?taskContainer .
+#                    ?taskContainer ldp:contains ?task .
+#
+#                    GRAPH ?task{
+#                        ?someTask a arena:TransporterTask ;
+#                            rdf:value ?goalTile .
+#                    }
+#                }
+#                ORDER BY RAND()
+#                LIMIT 1
+#            }
+#        }
+#    }
+#
+#    # Check if goal tile is not already occupied by other transporter
+#    FILTER NOT EXISTS {
+#      #TODO
+#    }
+#
+#    # Check if goal tile is inside boundaries
+#    FILTER(#TODO)
+#
+#    FILTER(#TODO)
+#
+#    ?shopfloor a arena:Shopfloor ;
+#      #TODO
+#
+#    # Calculate new coordinates from URI of goal tile
+#    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/(\\d+)/\\d+", "$1")) AS ?newX)
+#    BIND(xsd:integer(REPLACE(STR(?goalTile), "^(?:http)|(?:https)?://.*/shopfloor/\\d+/(\\d+)", "$1")) AS ?newY)
+#};
