@@ -3,7 +3,9 @@
 This project contains a demonstrator using MOSAIK for a decentralized transportation system. We built the decentralized transportation system according to the paradigms of stigmergy and Read-Write Linked Data, fulfilling the demands of Industry 4.0 for an agent-based system on state-of-the-art web technologies.
 
 It consists of transporters, which are reactive machines (called artifacts), and transporter agents, which control these transporter via Semantic Web technologies, e.g. RDF as data model and HTTP and REST for communication. 
-These transporters shall sort colored items, produced by distributed stations, to the respective colored station, by exploration and usage of local information.
+These transporters shall sort colored items, produced by distributed stations, to the respective colored station, by exploration and usage of local information. 
+
+You can find the API description [in our MOSAIK API repo](https://github.com/wintechis/mosaik-api). Note that the tutorial here describes a smaller scenario, a decentralized transportation system, that is a subset of the API's capabilites, a modular manufacturing scenario.
 
 ## Content
 
